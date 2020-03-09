@@ -76,11 +76,13 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `userID` int(10) NOT NULL,
   `cafeID` int(10) NOT NULL,
+  `bookingID` int(10) NOT NULL,
   `content` text NOT NULL,
   `stars` double(3,2) NOT NULL,
   PRIMARY KEY (`ID`),
   FOREIGN KEY(`userID`) references `users`(`ID`),
-  FOREIGN KEY(`cafeID`) references `cafe`(`ID`)
+  FOREIGN KEY(`cafeID`) references `cafe`(`ID`),
+  FOREIGN KEY(`bookingID`) references `booking`(`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
