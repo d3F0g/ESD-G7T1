@@ -56,8 +56,10 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `userID` int(10) NOT NULL,
   `cafeID` int(10) NOT NULL,
+  `seat_no` int(10) NOT NULL,
   `dateTime` timestamp NOT NULL,
   `status` enum('Confirmed', 'Rejected') NOT NULL,
+  `booking_completion` int(1) NOT NULL,
   PRIMARY KEY (`ID`),
   FOREIGN KEY(`userID`) references users(ID),
   FOREIGN KEY(`cafeID`) references cafe(ID)
