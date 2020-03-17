@@ -49,20 +49,6 @@ CREATE TABLE IF NOT EXISTS `cafes` (
   `location` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
--- --------------------------------------------------------
-
---
--- Table structure for table `cafe_seats`
-
-DROP TABLE IF EXISTS `cafe_seats`;
-CREATE TABLE IF NOT EXISTS `cafe_seats` (
-  `cafeID` int(10) NOT NULL,
-  `seat_no` int(10) NOT NULL,
-  `block` int(2) NOT NULL,
-  `occupied` int(1) NOT NULL,
-  FOREIGN KEY(`cafeID`) references cafes(ID)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 
 -- --------------------------------------------------------
@@ -75,9 +61,8 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `userID` int(10) NOT NULL,
   `cafeID` int(10) NOT NULL,
   `seat_no` int(10) NOT NULL,
-  `dateTime` timestamp NOT NULL,
-  `status` enum('Confirmed', 'Rejected') NOT NULL,
-  `booking_completion` int(1) NOT NULL,
+  `block` int(2) NOT NULL,
+  `status` enum('Confirmed', 'Cancelled') NOT NULL,
   PRIMARY KEY (`ID`),
   FOREIGN KEY(`userID`) references users(ID),
   FOREIGN KEY(`cafeID`) references cafes(ID)
