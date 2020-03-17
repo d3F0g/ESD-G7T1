@@ -13,7 +13,7 @@
     </div>
     <div align="right">
         <a href="facebook_login/login.php">Login</a>
-        <a href="signup.html">Sign Up</a>
+        <a href="login.html">Sign Up</a>
     </div>
     
     <hr>
