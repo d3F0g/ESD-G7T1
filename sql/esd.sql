@@ -24,7 +24,10 @@ USE `esd`;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `social_media` varchar(50),
   PRIMARY KEY (`id`)
