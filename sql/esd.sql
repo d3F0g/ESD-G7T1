@@ -37,10 +37,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cafe`
+-- Table structure for table `cafes`
 
-DROP TABLE IF EXISTS `cafe`;
-CREATE TABLE IF NOT EXISTS `cafe` (
+DROP TABLE IF EXISTS `cafes`;
+CREATE TABLE IF NOT EXISTS `cafes` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `phone` varchar(15) NOT NULL,
@@ -51,6 +51,21 @@ CREATE TABLE IF NOT EXISTS `cafe` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
 
+--
+-- Table structure for table `cafe_seats`
+
+DROP TABLE IF EXISTS `cafe_seats`;
+CREATE TABLE IF NOT EXISTS `cafe_seats` (
+  `cafeID` int(10) NOT NULL,
+  `seat_no` int(10) NOT NULL,
+  `block` int(2) NOT NULL,
+  `occupied` int(1) NOT NULL,
+  FOREIGN KEY(`cafeID`) references cafes(ID)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+-- --------------------------------------------------------
 --
 -- Table structure for table `booking`
 
@@ -65,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `booking_completion` int(1) NOT NULL,
   PRIMARY KEY (`ID`),
   FOREIGN KEY(`userID`) references users(ID),
-  FOREIGN KEY(`cafeID`) references cafe(ID)
+  FOREIGN KEY(`cafeID`) references cafes(ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -86,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `stars` double(3,2) NOT NULL,
   PRIMARY KEY (`ID`),
   FOREIGN KEY(`userID`) references `users`(`ID`),
-  FOREIGN KEY(`cafeID`) references `cafe`(`ID`),
+  FOREIGN KEY(`cafeID`) references `cafes`(`ID`),
   FOREIGN KEY(`bookingID`) references `booking`(`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
