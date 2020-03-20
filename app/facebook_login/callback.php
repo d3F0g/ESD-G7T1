@@ -24,6 +24,6 @@ if(!$accessToken->isLongLived())
     $userData = $response->getGraphNode()->asArray();
     $_SESSION['userData'] = $userData;
     $_SESSION['access_token'] = (string) $accessToken;
-    header('Location: index.php');
+    header('Location: ../simple_UI.php');
     exit();
 ?>
