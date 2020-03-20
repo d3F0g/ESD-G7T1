@@ -65,12 +65,13 @@
             $('#main-container')
                 .append("<label>"+message+"</label>");
         }
+
      
         // anonymous async function 
         // - using await requires the function that calls it to be async
         $(async() => {           
             // Change serviceURL to your own
-            var serviceURL = "http://127.0.0.1:5000/cafe";
+            var serviceURL = "http://127.0.0.1:5000/cafes";
      
             try {
                 const response =
@@ -90,10 +91,13 @@
                     // for loop to setup all table rows with obtained book data
                     var rows = "";
                     for (const cafe of cafes) {
+                        var str_avg_review = String(cafe.avg_review);
+                        var cafe_avg_review = parseFloat(str_avg_review);
+                        console.log(typeof(cafe_avg_review));
                         eachRow =
                             "<td>" + cafe.name + "</td>" +
                             "<td>" + cafe.phone + "</td>" +
-                            "<td>" + cafe.avg_review + "</td>" +
+                            "<td>" + cafe_avg_review + "</td>" +
                             "<td>" + cafe.price + "</td>" +
                             "<td>" + cafe.location + "</td>" ;
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";

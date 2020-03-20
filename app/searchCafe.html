@@ -63,6 +63,7 @@
     <script>
         // Helper function to display error message
         function showError(message) {
+            $('#searchTable').hide();
             // Display an error under the main container
             $('#main-container')
                 .append("<label>"+message+"</label>");
@@ -74,7 +75,7 @@
             event.preventDefault();         
             // Change serviceURL to your own
             var location = $('#search').val()
-            var serviceURL = "http://127.0.0.1:5000/cafe"+"/"+location;
+            var serviceURL = "http://127.0.0.1:5000/cafes"+"/"+location;
             
             try {
                 const response =
@@ -90,7 +91,7 @@
                 }
                 
                 // array or array.length are false
-                if (!data) {
+                if (!data ) {
                     showError('Try searching again.')
                 } else {
                     // for loop to setup all table rows with obtained book data
