@@ -19,7 +19,7 @@ def receiveBookingLog():
     channel = connection.channel()
 
     # set up the exchange if the exchange doesn't exist
-    exchangename="order_topic"
+    exchangename="booking_topic"
     channel.exchange_declare(exchange=exchangename, exchange_type='topic')
 
     # prepare a queue for receiving messages
