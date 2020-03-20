@@ -139,6 +139,9 @@ function build_calendar($month, $year) {
      echo $calendar;
 
 }
+
+$cafe = $_GET['cafename'];
+echo "<h3><b>Cafe Name</b>: ".$cafe."</h3>";
     
 ?>
 
