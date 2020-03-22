@@ -4,23 +4,35 @@ from flask_cors import CORS
 import json
 import pika
 app = Flask(__name__)
-"""app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/book'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
  
 db = SQLAlchemy(app)
-CORS(app)"""
+CORS(app)
 
-class Booking:
-    def __init__(self, booking_id, user_id, cafe_id, block):
-        self.booking_id = booking_id
-        self.user_id = user_id
-        self.cafe_id = cafe_id
+class Booking(db.Model):
+    __tablename__ = 'booking'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    userID = db.Column(db.Integer, nullable=False)
+    cafeID = db.Column(db.Integer, nullable=False)
+    seat_no = db.Column(db.Integer, nullable=False)
+    block = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.Enum('Confirmed', 'Cancelled'), nullable=False)
+
+    def __init__(self, ID, userID, cafeID, seat_no, block, status):
+        self.ID = ID
+        self.userID = userID
+        self.cafeID = cafeID
+        self.seat_no = seat_no
         self.block = block
+        self.status = status
 
     def json(self):
-        return {"booking_id": self.booking_id, "user_id": self.user_id,
-        "cafe_id": self.cafe_id, "block": self.block}
+        return {"ID": self.ID, "userID": self.userID, "cafeID": self.cafeID, "seat_no": self.seat_no,
+        "block": self.block, "status": self.status}
 
+# AMQP messaging function
 def send_booking(booking):
     hostname = "localhost"
     port = 5672
@@ -43,11 +55,27 @@ def send_booking(booking):
     print("Successful sending of booking to error handler.")
     connection.close()
 
+# HTTP GET_ALL function to retrieve all bookings
+@app.route("/booking")
+def get_all():
+    return jsonify({"bookings": [booking.json() for booking in Booking.query.all()]})
+
+# HTTP GET function to retrieve a specified booking
+@app.route("/booking/<int:booking_id>")
+def find_booking(booking_id):
+    booking = Booking.query.filter_by(ID=booking_id).first()
+    if booking:
+        return jsonify(booking.json())
+    return jsonify({"message": "Booking not found."}), 404
+
+# HTTP POST function to create a new booking
 @app.route("/booking/<int:booking_id>", methods=['POST'])
 def create_booking(booking_id):
     data = request.get_json()
     booking = Booking(booking_id, **data)
     try:
+        db.session.add(booking)
+        db.session.commit()
         print("Test booking created: " + json.dumps(booking.json(), default=str))
         send_booking(booking)
     except:
