@@ -1,21 +1,25 @@
 from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import json
 import pika
-
 app = Flask(__name__)
+"""app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/book'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+ 
+db = SQLAlchemy(app)
+CORS(app)"""
 
 class Booking:
-    def __init__(self):
-        self.booking_id = 0
-        self.user = "abc"
-        self.user_contact = 0
-        self.cafe = "abc"
-        self.date = "01-01-2020"
-        self.time = "12:00"
+    def __init__(self, booking_id, user_id, cafe_id, block):
+        self.booking_id = booking_id
+        self.user_id = user_id
+        self.cafe_id = cafe_id
+        self.block = block
 
     def json(self):
-        return {"booking_id": self.booking_id, "user": self.user, "contact": self.user_contact,
-        "cafe": self.cafe, "date": self.date, "time": self.time}
+        return {"booking_id": self.booking_id, "user_id": self.user_id,
+        "cafe_id": self.cafe_id, "block": self.block}
 
 def send_booking(booking):
     hostname = "localhost"
@@ -39,14 +43,17 @@ def send_booking(booking):
     print("Successful sending of booking to error handler.")
     connection.close()
 
+@app.route("/booking/<int:booking_id>", methods=['POST'])
+def create_booking(booking_id):
+    data = request.get_json()
+    booking = Booking(booking_id, **data)
+    try:
+        print("Test booking created: " + json.dumps(booking.json(), default=str))
+        send_booking(booking)
+    except:
+        return jsonify({"message": "An error occurred while creating the booking."}), 500
+    
+    return jsonify(booking.json()), 201
+
 if __name__ == '__main__':
-    print("Creating a test booking: ...")
-    booking = Booking()
-    booking.booking_id = 1
-    booking.user = "Jason"
-    booking.user_contact = 123
-    booking.cafe = "lola"
-    booking.date = "21-03-2020"
-    booking.time = "13:00"
-    print("Test booking created: " + json.dumps(booking.json(), default=str))
-    send_booking(booking)
+    app.run(port=5000, debug=True)
