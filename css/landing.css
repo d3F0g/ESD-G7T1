@@ -1,30 +1,30 @@
+
 /*custom font*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap);
 
 /*basic reset*/
 * {margin: 0; padding: 0;}
 
-html {
-	height: 100%;
-	/*Image only BG fallback*/
-	
-	/*background = gradient + image pattern combo*/
-	background: 
-		linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));
+body {
+    background-image: url("../app/cafe_layouts/cafe_back.jpeg");
+    font-family: montserrat, arial, verdana;
+    background-size: cover;
 }
 
-body {
-	font-family: montserrat, arial, verdana;
-}
 /*form styles*/
 #msform {
 	width: 400px;
 	margin: 50px auto;
 	text-align: center;
-	position: relative;
+    position: relative;
+    top: 70px;
+    left: 500px;
+    
 }
+
 #msform fieldset {
-	background: white;
+	background:rgba(255,255,255,0.2);
 	border: 0 none;
 	border-radius: 3px;
 	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
@@ -54,7 +54,18 @@ body {
 }
 /*buttons*/
 #msform .action-button {
-	width: 100px;
+	width: 200px;
+	background: #27AE60;
+	font-weight: bold;
+	color: white;
+	border: 0 none;
+	border-radius: 1px;
+	cursor: pointer;
+	padding: 10px 5px;
+	margin: 10px 5px;
+}
+#msform .action-button2 {
+	width: 200px;
 	background: #27AE60;
 	font-weight: bold;
 	color: white;
@@ -67,17 +78,21 @@ body {
 #msform .action-button:hover, #msform .action-button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
 }
+#msform .action-button2:hover, #msform .action-button2:focus {
+	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+}
+
 /*headings*/
 .fs-title {
 	font-size: 15px;
 	text-transform: uppercase;
-	color: #2C3E50;
+	color: rgb(255, 255, 255);
 	margin-bottom: 10px;
 }
 .fs-subtitle {
 	font-weight: normal;
 	font-size: 13px;
-	color: #666;
+	color: rgb(255, 255, 255);
 	margin-bottom: 20px;
 }
 /*progressbar*/
@@ -131,4 +146,28 @@ body {
 }
 
 
+#redirection {
+    width: 300px;
+    height: 75px; 
+	margin: 50px auto;
+	text-align: center;
+    position: absolute;
+    right: 190px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #27AE60;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+#redirection:hover {background-color: #3e8e41}
 
+#redirection:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
