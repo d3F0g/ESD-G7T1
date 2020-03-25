@@ -77,6 +77,6 @@ $(".previous").click(function(){
 	});
 });
 
-$("#submit").click(function(){
-	location.href="registration_logic.php";
-})
+// $("#submit").click(function(){
+// 	location.href="registration_logic.php";
+// })
