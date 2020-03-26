@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `cafes` (
   `name` varchar(100) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `avg_review` double(3,2) NOT NULL,
-  `price` double(6,2) NOT NULL,
+  `price` int(1) NOT NULL,
   `location` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `cafeID` int(10) NOT NULL,
   `seat_no` int(10) NOT NULL,
   `block` int(2) NOT NULL,
+  `date` date NOT NULL,
   `status` enum('Confirmed', 'Cancelled') NOT NULL,
   PRIMARY KEY (`ID`),
   FOREIGN KEY(`userID`) references users(ID),

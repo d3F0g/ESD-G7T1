@@ -7,10 +7,10 @@ values (1, "joqeewee@gmail.com","$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dp
 
 Insert into cafes
 (ID, name, phone, avg_review, price, location)
-values (1, "Lola's Cafe", "65353535", 3, 5.99, "Bukit Josiah"),
-(2, "Kookie", "999099", 5,9.99,"Bukit Lvin");
+values (1, "Lola's Cafe", "65353535", 3, 1, "Bukit Josiah"),
+(2, "Kookie", "999099", 5,5,"Bukit Lvin");
 
 Insert into booking
-(ID, userID, cafeID, seat_no, block, status)
-values (1,1,1,1,6,"Confirmed"),
-(2,3,2,6,3,"Confirmed");
+(ID, userID, cafeID, seat_no, block,date, status)
+values (1,1,1,1,6,"2020-03-30","Confirmed"),
+(2,3,2,6,3,"2020-03-30","Confirmed");
