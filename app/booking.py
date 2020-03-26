@@ -32,8 +32,8 @@ class Booking(db.Model):
         return {"ID": self.ID, "userID": self.userID, "cafeID": self.cafeID, "seat_no": self.seat_no,
         "block": self.block, "status": self.status}
 
-# AMQP messaging function
-def send_booking(booking):
+# AMQP messaging function for a successful booking
+def send_successful_booking(booking):
     hostname = "localhost"
     port = 5672
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
@@ -46,7 +46,29 @@ def send_booking(booking):
     # prepare the message body content
     message = json.dumps(booking.json(), default=str) # convert a JSON object to a string
 
-    # test the sending of messages
+    # inform monitoring
+    channel.basic_publish(exchange=exchangename, routing_key="booking.info", body=message)
+
+    connection.close()
+
+# AMQP messaging function for a unsuccessful booking
+def send_error_booking(booking):
+    hostname = "localhost"
+    port = 5672
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+    channel = connection.channel()
+
+    # set up the exchange if the exchange doesn't exist
+    exchangename="booking_topic"
+    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+
+    # prepare the message body content
+    message = json.dumps(booking.json(), default=str) # convert a JSON object to a string
+
+    # inform monitoring
+    channel.basic_publish(exchange=exchangename, routing_key="booking.info", body=message)
+
+    # send the error message over to error handler too
     channel.queue_declare(queue='errorhandler', durable=True) # make sure the queue used by the error handler exist and durable
     channel.queue_bind(exchange=exchangename, queue='errorhandler', routing_key='*.error') # make sure the queue is bound to the exchange
     channel.basic_publish(exchange=exchangename, routing_key="booking.error", body=message,
@@ -77,9 +99,10 @@ def create_booking(booking_id):
         db.session.add(booking)
         db.session.commit()
         print("Test booking created: " + json.dumps(booking.json(), default=str))
-        send_booking(booking)
+        send_successful_booking(booking)
     except:
-        return jsonify({"message": "An error occurred while creating the booking."}), 500
+        print("An error occurred while creating the booking")
+        send_error_booking(booking)
     
     return jsonify(booking.json()), 201
 
