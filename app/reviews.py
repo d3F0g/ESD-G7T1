@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import simplejson as json # remember to include simplejson as part of requirements.txt
+import pika
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -31,6 +32,52 @@ class Review(db.Model):
         return {"ID": self.ID, "userID": self.userID, "cafeID": self.cafeID, "bookingID": self.bookingID,
         "content": self.content, "stars": self.stars}
 
+
+# AMQP messaging function for a successful review
+def send_successful_review(review):
+    hostname = "localhost"
+    port = 5672
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+    channel = connection.channel()
+
+    # set up the exchange if the exchange doesn't exist
+    exchangename="booking_topic"
+    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+
+    # prepare the message body content
+    message = json.dumps(review.json(), default=str) # convert a JSON object to a string
+
+    # inform monitoring
+    channel.basic_publish(exchange=exchangename, routing_key="review.info", body=message)
+
+    connection.close()
+
+# AMQP messaging function for an unsuccessful review
+def send_error_review(review):
+    hostname = "localhost"
+    port = 5672
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+    channel = connection.channel()
+
+    # set up the exchange if the exchange doesn't exist
+    exchangename="booking_topic"
+    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
+
+    # prepare the message body content
+    message = json.dumps(review.json(), default=str) # convert a JSON object to a string
+
+    # inform monitoring
+    channel.basic_publish(exchange=exchangename, routing_key="review.info", body=message)
+
+    # send the error message over to error handler too
+    channel.queue_declare(queue='errorhandler', durable=True) # make sure the queue used by the error handler exist and durable
+    channel.queue_bind(exchange=exchangename, queue='errorhandler', routing_key='*.error') # make sure the queue is bound to the exchange
+    channel.basic_publish(exchange=exchangename, routing_key="review.error", body=message,
+        properties=pika.BasicProperties(delivery_mode = 2) # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange)
+    )
+    print("Successful sending notification send to error handler.")
+    connection.close()
+
 @app.route("/reviews")
 def get_all():
     return jsonify({"reviews": [review.json() for review in Review.query.all()]})
@@ -49,8 +96,10 @@ def create_review(reviewID):
         db.session.add(review)
         db.session.commit()
         print("Test review created: " + json.dumps(review.json(), default=str))
+        send_successful_review(review)
     except:
-        return jsonify({"message": "An error occurred while creating the review."}), 500
+        print("An error occurred while creating a review")
+        send_error_review(review)
     
     return jsonify(review.json()), 201
 
