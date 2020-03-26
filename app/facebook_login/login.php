@@ -40,9 +40,10 @@ $fullURL = $handler->getLoginUrl($redirectTo, $data);
           
           <input type="submit" value="Login" class="btn btn-primary action-button">
           <input type="button" onclick="window.location = '<?php echo $fullURL ?>'" value="Login with Facebook" class="btn btn-primary action-button">
-          <?php if (isset($_GET["error"])){
-                echo $_GET['error'];
-                } ?>  
+          <span style="color:red"><strong>
+            <?php if (isset($_GET["error"])){
+                  echo $_GET['error'];
+                  } ?></strong></span> 
         </fieldset>
         </form>
       
