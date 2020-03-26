@@ -75,7 +75,7 @@ def send_error_review(review):
     channel.basic_publish(exchange=exchangename, routing_key="review.error", body=message,
         properties=pika.BasicProperties(delivery_mode = 2) # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange)
     )
-    print("Successful sending notification send to error handler.")
+    print("Successful sending of notification to error handler.")
     connection.close()
 
 @app.route("/reviews")
