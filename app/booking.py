@@ -18,19 +18,21 @@ class Booking(db.Model):
     cafeID = db.Column(db.Integer, nullable=False)
     seat_no = db.Column(db.Integer, nullable=False)
     block = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.Date, nullable=False)
     status = db.Column(db.Enum('Confirmed', 'Cancelled'), nullable=False)
 
-    def __init__(self, ID, userID, cafeID, seat_no, block, status):
+    def __init__(self, ID, userID, cafeID, seat_no, block, date, status):
         self.ID = ID
         self.userID = userID
         self.cafeID = cafeID
         self.seat_no = seat_no
         self.block = block
+        self.date = date
         self.status = status
 
     def json(self):
         return {"ID": self.ID, "userID": self.userID, "cafeID": self.cafeID, "seat_no": self.seat_no,
-        "block": self.block, "status": self.status}
+        "block": self.block, "date": self.date, "status": self.status}
 
 # AMQP messaging function for a successful booking
 def send_successful_booking(booking):
