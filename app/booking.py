@@ -102,6 +102,14 @@ def find_latestID():
     else:
         return str(1)
 
+# HTTP GET function to retrieve the userID from the database
+@app.route("/booking/user/<int:user_id>")
+def find_userid(user_id):
+    booking = Booking.query.filter_by(userID=user_id).first()
+    if booking:
+        return jsonify(booking.json())
+    return jsonify({"message": "Booking not found."}), 404
+
 # HTTP POST function to create a new booking
 @app.route("/booking/<int:booking_id>", methods=['POST'])
 def create_booking(booking_id):
