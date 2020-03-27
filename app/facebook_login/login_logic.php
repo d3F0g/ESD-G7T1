@@ -22,10 +22,13 @@ try {
 
     $db_password = $row['password'];
     $first_name = $row['first_name'];
+    $userID = $row['ID'];
+
 
     if (password_verify($pass, $db_password)) {
         session_start();
         $_SESSION['userData']['first_name'] = $first_name; 
+        $_SESSION['userData']['userID'] = $userID;
         header("Location: ../simple_UI.php");
         exit();
     } else {
