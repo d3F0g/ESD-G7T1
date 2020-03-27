@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from sqlalchemy import desc
 import json
 import pika
 app = Flask(__name__)
@@ -91,6 +92,15 @@ def find_booking(booking_id):
     if booking:
         return jsonify(booking.json())
     return jsonify({"message": "Booking not found."}), 404
+
+# HTTP GET function to retrieve the latest booking ID from the database
+@app.route("/booking/get_id")
+def find_latestID():
+    booking = Booking.query.order_by(desc(Booking.ID)).first()
+    if booking:
+        return str(booking.ID + 1)
+    else:
+        return str(1)
 
 # HTTP POST function to create a new booking
 @app.route("/booking/<int:booking_id>", methods=['POST'])
