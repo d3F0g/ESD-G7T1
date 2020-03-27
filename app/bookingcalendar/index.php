@@ -1,6 +1,8 @@
 <?php
-function build_calendar($month, $year) {
-    $mysqli = new mysqli('localhost', 'root', '', 'bookingcalendar');
+$cafe = $_GET['cafename'];
+echo "<h3><b>Cafe Name</b>: ".$cafe."</h3>";
+function build_calendar($month, $year, $cafe) {
+    $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
     $stmt = $mysqli->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date) = ?");
     $stmt->bind_param('ss', $month, $year);
     $bookings = array();
@@ -95,7 +97,6 @@ function build_calendar($month, $year) {
           
           $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
           $date = "$year-$month-$currentDayRel";
-          
             $dayname = strtolower(date('l', strtotime($date)));
             $eventNum = 0;
             $today = $date==date('Y-m-d')? "today" : "";
@@ -104,7 +105,7 @@ function build_calendar($month, $year) {
          }elseif(in_array($date, $bookings)){
              $calendar.="<td class='$today'><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>Already Booked</button>";
          }else{
-             $calendar.="<td class='$today'><h4>$currentDay</h4> <a href='book.php?date=".$date."' class='btn btn-success btn-xs'>Book</a>";
+             $calendar.="<td class='$today'><h4>$currentDay</h4> <a href='book.php?date=$date&cafe=$cafe' class='btn btn-success btn-xs'>Book</a>";
          }
             
             
@@ -140,8 +141,6 @@ function build_calendar($month, $year) {
 
 }
 
-$cafe = $_GET['cafename'];
-echo "<h3><b>Cafe Name</b>: ".$cafe."</h3>";
     
 ?>
 
@@ -267,7 +266,7 @@ echo "<h3><b>Cafe Name</b>: ".$cafe."</h3>";
                          $month = $dateComponents['mon']; 			     
                          $year = $dateComponents['year'];
                      }
-                    echo build_calendar($month,$year);
+                    echo build_calendar($month,$year,$cafe);
                 ?>
             </div>
         </div>

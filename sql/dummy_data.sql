@@ -6,17 +6,13 @@ values (1, "joqeewee@gmail.com","$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dp
 
 
 Insert into cafes
-(ID, name, phone, avg_review, price, location)
-values (1, "Lola's Cafe", "65353535", 3, 1, "Bukit Josiah"),
-(2, "Kookie", "999099", 5,5,"Bukit Lvin");
+(ID, name, email, password, phone, poc, avg_review, price, location)
+values (1, "Lola's Cafe","kindadopey@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu","65353535",'Lola', 3, 1, "Bukit Josiah"),
+(2, "Kookie","hxchoo@gmail.com","$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "999099",'Kook', 5,5,"Bukit Lvin");
 
 Insert into booking
 (ID, userID, cafeID, seat_no, block,date, status)
 values (1,1,1,1,6,"2020-03-30","Confirmed"),
 (2,3,2,6,3,"2020-03-30","Confirmed");
 
-Insert into owners 
-(ID, email, password, first_name, last_name, phone, cafeID)
-values (1, "kindadopey@gmail.com","$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "kindadopey", "Tan", "987",2),
-(2,"teeteeyup@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "teeteeyup", "Yup", "654", 2),
-(3,"hxchoo@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "hxchoo", "Choo", "896", 1);
+

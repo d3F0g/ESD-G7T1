@@ -54,8 +54,11 @@ DROP TABLE IF EXISTS `cafes`;
 CREATE TABLE IF NOT EXISTS `cafes` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(64) NOT NULL,
   `phone` varchar(15) NOT NULL,
-  `avg_review` double(3,2) NOT NULL,
+  `poc` varchar(100) NOT NULL,
+  `avg_review` double(3,2),
   `price` int(1) NOT NULL,
   `location` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
@@ -98,27 +101,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `social_media` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `owners`
---
-
-DROP TABLE IF EXISTS `owners`;
-CREATE TABLE IF NOT EXISTS `owners` (
-  `ID` int(10) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `phone` varchar(15) NOT NULL,
-  `cafeID` int(10) NOT NULL,
-  PRIMARY KEY (`ID`),
-  FOREIGN KEY(`cafeID`) references cafes(ID)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 
 -- --------------------------------------------------------
 
