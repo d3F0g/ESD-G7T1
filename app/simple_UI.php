@@ -84,22 +84,18 @@ session_start();
         
           <body>
 
-                    <?php
-                        if (isset($_SESSION['userData'])){
-                            #nav bar
-                            echo '<ul>
+
+                            <ul>
                             <li><a class="active" href="simple_UI.html">Home</a></li>
                             <li><a href="booking_page.php">Check Booking</a></li>
-                            <li><a href="booking_page.php">Make Booking</a></li>
+                            <li><a href="user_review.php">Give Review</a></li>
                             <li><a href="payment_service.php">Make Payment</a></li>
                             <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
-                            <li style="float:right"><a class="active" href="login.html">Sign Up</a></li>
-                          </ul>';
-                            echo "<h1>Hello, ". $_SESSION['userData']['first_name']."!</h1>";
+                          </ul>
+                            <h1>Hello, <?php echo $_SESSION['userData']['first_name']; ?> !</h1>
                             
 
-                            #search bar
-                            echo '<!-- Header -->
+
                             <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px">
                               <img class="w3-image" src="cafe_background.jpg" alt="cafe" id="responsive-image">
                               <div class="w3-display-middle" style="width:65%">
@@ -125,66 +121,8 @@ session_start();
                                 </div>
                             
                             </header>
-                            ';
-                            #cafe table
-                            echo '<div id="main-container" class="container">
-                            <h1 class="display-4">Cafe Listing</h1>
-                            <table id="cafeTable" class="table table-striped" border="1">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Cafe Name</th>
-                                        <th>Cafe Phone</th>
-                                        <th>Review</th>
-                                        <th>Price</th>
-                                        <th>Location</th>
-                                        <th>Book Now</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                            <a id="searchCafeBtn" class="btn btn-primary" href="searchCafe.html">Search for a Cafe</a>
-                        </div>';
-                            
-                        } else{
-                            #nav bar
-                            echo '<ul>
-                            <li><a class="active" href="simple_UI.html">Home</a></li>
-                            <li><a href="booking_page.php">Check Booking</a></li>
-                            <li><a href="booking_page.php">Make Booking</a></li>
-                            <li><a href="payment_service.php">Make Payment</a></li>
-                            <li style="float:right"><a class="active" href="facebook_login/login.php">Login</a></li>
-                            <li style="float:right"><a class="active" href="login.html">Sign Up</a></li>
-                          </ul>';
 
-                          #search bar
-                          echo '<!-- Header -->
-                          <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px">
-                            <img class="w3-image" src="cafe_background.jpg" alt="cafe" id="responsive-image">
-                            <div class="w3-display-middle" style="width:65%">
-                              <div class="w3-bar w3-black">
-                                <button class="w3-bar-item w3-button tablink" onclick="openLink(event, "Search");"><i class="fa fa-plane w3-margin-right"></i>Search</button>
-                          
-                              </div>
-                          
-                              <!-- Tabs -->
-                              <div id="Search" class="w3-container w3-white w3-padding-16 myLink">
-                                <h3>Search with us</h3>
-                                <div class="w3-row-padding" style="margin:0 -16px;">
-                                  <div class="w3-half">
-                                    <label>Location</label>
-                                    <input class="w3-input w3-border" type="text" placeholder="Location">
-                                  </div>
-                                  <div class="w3-half">
-                                    <label>Price Range</label>
-                                    <input class="w3-input w3-border" type="text" placeholder="Price Range">
-                                  </div>
-                                </div>
-                                <p><button class="w3-button w3-dark-grey">Search</button></p>
-                              </div>
-                          
-                          </header>
-                          ';
-                          #cafe table
-                            echo '<div id="main-container" class="container">
+                            <div id="main-container" class="container">
                             <h1 class="display-4">Cafe Listing</h1>
                             <table id="cafeTable" class="table table-striped" border="1">
                                 <thead class="thead-dark">
@@ -199,12 +137,8 @@ session_start();
                                 </thead>
                             </table>
                             <a id="searchCafeBtn" class="btn btn-primary" href="searchCafe.html">Search for a Cafe</a>
-                        </div>';
-                            
-                        }
-                    ?>
-            
-        
+                        </div>
+   
             <script>
                 // Helper function to display error message
                 function showError(message) {
