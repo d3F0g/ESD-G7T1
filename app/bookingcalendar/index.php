@@ -2,7 +2,7 @@
 $cafe = $_GET['cafename'];
 echo "<h3><b>Cafe Name</b>: ".$cafe."</h3>";
 function build_calendar($month, $year, $cafe) {
-    $mysqli = new mysqli('localhost', 'root', '', 'bookingcalendar');
+    $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
     $stmt = $mysqli->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date) = ?");
     $stmt->bind_param('ss', $month, $year);
     $bookings = array();
