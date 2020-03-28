@@ -17,7 +17,7 @@ class Cafe(db.Model):
     name = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(15), nullable=False)
     avg_review = db.Column(db.Float(precision=2), nullable=False) 
-    price = db.Column(db.Float(precision=2), nullable=False) 
+    price = db.Column(db.Integer(), nullable=False) 
     location = db.Column(db.String(50), nullable=False)
 
     def __init__(self, ID, name, phone, avg_review, price, location):
@@ -38,25 +38,25 @@ def get_all():
 
 
 # search by price, location
-@app.route("/cafes/<float:price>/<string:location>")
+@app.route("/cafes/<int:price>/<string:location>")
 def find_by_price_location(price, location):
-    cafe = Cafe.query.filter_by( price=price, location=location).first()
-    if cafe:
-        return jsonify(cafe.json())
+    cafes = Cafe.query.filter_by( price=price, location=location)
+    if cafes:
+        return jsonify({"cafes": [cafe.json() for cafe in Cafe.query.filter_by( price=price, location=location)]})
     return jsonify({"message": "No results."}), 404
 
 # search by location
 @app.route("/cafes/<string:location>")
 def find_by_location(location):
-    cafe = Cafe.query.filter_by( location=location).first()
-    if cafe:
-        return jsonify(cafe.json())
+    cafes = Cafe.query.filter_by( location=location)
+    if cafes:
+        return jsonify({"cafes": [cafe.json() for cafe in Cafe.query.filter_by( location=location)]})
     return jsonify({"message": "No results."}), 404
 
 # search by cafe name
 @app.route("/cafes/<string:name>")
 def find_by_cafe_name(name):
-    cafe = Cafe.query.filter_by(name).first()
+    cafe = Cafe.query.filter_by(name=name).first()
     if cafe:
         return jsonify(cafe.json())
     return jsonify({"message": "No results."}), 404
