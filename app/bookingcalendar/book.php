@@ -9,7 +9,7 @@ if(isset($_GET['cafe'])){
 if(isset($_POST['submit'])){
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
+    $mysqli = new mysqli('localhost', 'root', '', 'bookingcalendar');
     $stmt = $mysqli->prepare("INSERT INTO bookings (name, email, date) VALUES (?,?,?)");
     $stmt->bind_param('sss', $name, $email, $date);
     $stmt->execute();

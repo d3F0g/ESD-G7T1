@@ -28,9 +28,7 @@
             <p><b>Cafe Name:</b> #CAFEID</p>
             <p><b>Booking Date:</b> #DATE</p>
             <p><b>Booking Time:</b> #TIME</p>
-            <p><b>Author:</b> #CUSTID</p>
-            <b>Amount: </b>
-            <input type = 'text' name = 'amount'><br><br>
+
             <!-- Your PayPal Button here -->
 
 <head>
@@ -44,36 +42,87 @@
     <div id="paypal-button-container"></div>
 
     <!-- Include the PayPal JavaScript SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=SGD"></script>
 
     <script>
         // Render the PayPal button into #paypal-button-container
         //email ID for PAYPAL: sb-ahfw2581173@business.example.com
         //password for PAYPAL: JU-z(3v=
 
-        paypal.Buttons({
+        // paypal.Buttons({
+        //     // Finalize the transaction
+        //     onApprove: function(data, actions) {
+        //         return actions.order.capture().then(function(details) {
+        //             // Show a success message to the buyer
+        //             alert('Transaction completed by ' + details.payer.name.given_name + '!');               
+        //                 });                
+        //             }
+        // }).render('#paypal-button-container');
 
-            // Set up the transaction
-            createOrder: function(data, actions) {
+
+        paypal.Buttons({
+             // Set up the transaction
+             createOrder: function(data, actions) {
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: '0.01'
+                            value: '1.50'
                         }
                     }]
                 });
             },
 
-            // Finalize the transaction
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    // Show a success message to the buyer
-                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
-                });
-            }
+            onApprove: async function bookingPOST(){
+                        var serviceURL = "http://127.0.0.1:5000/booking/3";
+                        var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php";
+
+                    //Get form data 
+                    var userID = "2";
+                    var cafeID = "2";
+                    var seat_no = "3";
+                    var block = "3";
+                    var date = "2020-03-30";
+                    var status = "Confirmed";
+
+                    try {
+                        const response =
+                            await fetch(
+                                serviceURL, {
+                                method: 'POST',
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ userID: userID, cafeID: cafeID, seat_no: seat_no, block: block, date: date, status: status })
+                            });
+                        
+                            const data = await response.json();
+
+                        if (response.ok) {
+                            // relocate to home page
+                            window.location.replace(homeURL);
+                            return false;
+
+                        } else {
+                            console.log(data);
+                            showError(data.message);
+                        }
+                    } catch (error) {
+                        // Errors when calling the service; such as network error, 
+                        // service offline, etc
+                        showError
+                            ("There is a problem adding this booking, please try again later. " + error);
+
+            } // error
+                    }
+
+                
+                        
 
 
-        }).render('#paypal-button-container');
+
+                }).render('#paypal-button-container');
+
+
+       
+      
     </script>    
         </div>
     </div>

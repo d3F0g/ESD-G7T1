@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from sqlalchemy import desc
 import simplejson as json # remember to include simplejson as part of requirements.txt
 import pika
 app = Flask(__name__)
@@ -88,6 +89,15 @@ def get_reviews(userID):
     return jsonify({"reviews": [review.json() for review in Review.query.filter_by(userID=userID)]}
     )
 
+# HTTP GET function to retrieve the latest review ID from the database
+@app.route("/reviews/get_id")
+def find_latestID():
+    review = Review.query.order_by(desc(Review.ID)).first()
+    if review:
+        return str(review.ID + 1)
+    else:
+        return str(1)
+    
 @app.route("/reviews/<int:reviewID>", methods=['POST'])
 def create_review(reviewID):
     data = request.get_json()

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
  
@@ -6,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
  
-    <title>Cafes</title>
+    <title>Past Bookings</title>
  
     <link rel="stylesheet" href="">
     <!--[if lt IE 9]>
@@ -40,30 +43,25 @@
 
 <body>
     <div id="main-container" class="container">
-        <h1 class="display-4">Cafe Search</h1>
-        <table id="searchTable" class='table table-striped' border='1'>
+        <h1 class="display-4">Past Bookings</h1>
+        <table id="bookingTable" class='table table-striped' border='1'>
             <thead class='thead-dark'>
                 <tr>
-                    <th>Cafe Name</th>
-                    <th>Cafe Phone</th>
+                    <th>BookingID</th>
+                    <th>CafeID</th>
+                    <th>Date</th>
                     <th>Review</th>
-                    <th>Price</th>
-                    <th>Location</th>
                 </tr>
             </thead>
         </table>
-        <form id="getcafeform">
-        <br/>
-        <br/>
-            Input a location: <input type="text" id="search">
-            <input type="submit" value="Submit" />
-        </form>
     </div>
 
     <script>
         // Helper function to display error message
         function showError(message) {
-            $('#searchTable').hide();
+            // Hide the table and button in the event of error
+            $('#bookingTable').hide();
+     
             // Display an error under the main container
             $('#main-container')
                 .append("<label>"+message+"</label>");
@@ -71,47 +69,47 @@
      
         // anonymous async function 
         // - using await requires the function that calls it to be async
-        $("#getcafeform").submit(async(event) => {  
-            event.preventDefault();         
+        $(async() => {           
             // Change serviceURL to your own
-            var location = $('#search').val()
-            var serviceURL = "http://127.0.0.1:5000/cafes"+"/"+location;
-            
+            var serviceURL = "http://127.0.0.1:5000/booking/user/"+ <?php echo $_SESSION['userData']['userID']?>;
+     
             try {
                 const response =
                  await fetch(
-                    serviceURL, { 
-                        method: 'GET',
-                    });
-            
-                
+                   serviceURL, { method: 'GET' }
+                );
                 const data = await response.json();
                 if (response.ok) {
                     console.log(data);
                 }
-                
+                // var bookings = data.bookings; //the arr is in data.books of the JSON data
+                // console.log(bookings);
+
                 // array or array.length are false
-                if (!data ) {
-                    showError('Try searching again.')
+                if (!data) {
+                    showError('Booking list empty or undefined.')
                 } else {
                     // for loop to setup all table rows with obtained book data
                     var rows = "";
-                    
-                    eachRow =
-                        "<td>" + data.name + "</td>" +
-                        "<td>" + data.phone + "</td>" +
-                        "<td>" + data.avg_review + "</td>" +
-                        "<td>" + data.price + "</td>" +
-                        "<td>" + data.location + "</td>" ;
-                    rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-                    
+                    // for (var booking in data)) {
+
+                        eachRow =
+                            "<td>" + data.ID + "</td>" +
+                            "<td>" + data.cafeID + "</td>" +
+                            "<td>" + data.date + "</td>" +
+                            "<td>" + "<a id='bookBtn' class='btn btn-primary' href='user_review.php?bookingID=" + data.ID + "&cafeID=" + data.cafeID + "&userID=" + data.userID + "'>Give Review!</a>" + "</td>";
+                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+
+                    // }
                     // add all the rows to the table
-                    $('#searchTable').append(rows);
+                    $('#bookingTable').append(rows);
                 }
-            } catch (error) {
+            // }
+            }
+             catch (error) {
                 // Errors when calling the service; such as network error, 
                 // service offline, etc
-                showError('There is a problem retrieving books data, please try again later.<br />'+error);
+                showError('There is a problem retrieving booking data, please try again later.<br />'+error);
 
                 
            

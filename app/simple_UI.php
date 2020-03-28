@@ -1,5 +1,21 @@
 <?php                      
-session_start();
+  if(!session_id()) {
+    session_start();
+  }
+  $cafes_locations = [];
+  $dsn = "mysql:host=localhost;dbname=esd";
+  $pdo = new PDO($dsn, "root", "");
+  $sql = 'select * from cafes';
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute();
+  $stmt->setFetchMode(PDO::FETCH_ASSOC);
+  while($row = $stmt->fetch()) { 
+    if(!(in_array($row["location"],$cafes_locations))) {
+        $cafes_locations[] = $row["location"];
+    }
+  }
+  $stmt = null;
+  $pdo = null;
 ?>
 <!DOCTYPE html>
 
@@ -73,6 +89,8 @@ session_start();
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
 
+    
+
     <title>Cafe Booking UI</title>
     <link rel="stylesheet" href="http://bootswatch.com/darkly/bootstrap.min.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -84,22 +102,21 @@ session_start();
         
           <body>
 
-                    <?php
-                        if (isset($_SESSION['userData'])){
-                            #nav bar
-                            echo '<ul>
+          <ul>
                             <li><a class="active" href="simple_UI.html">Home</a></li>
                             <li><a href="booking_page.php">Check Booking</a></li>
-                            <li><a href="booking_page.php">Make Booking</a></li>
+                            <li><a href="user_review.php">Give Review</a></li>
                             <li><a href="payment_service.php">Make Payment</a></li>
                             <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
-                            <li style="float:right"><a class="active" href="login.html">Sign Up</a></li>
-                          </ul>';
-                            echo "<h1>Hello, ". $_SESSION['userData']['first_name']."!</h1>";
+                          </ul>
+                            <?php
+                            if(isset( $_SESSION['userData']['first_name'])){
+                              echo "<h1>Hello, " + $_SESSION['userData']['first_name'] + "!</h1>";
+                            }
+                            ?>
                             
 
-                            #search bar
-                            echo '<!-- Header -->
+
                             <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px">
                               <img class="w3-image" src="cafe_background.jpg" alt="cafe" id="responsive-image">
                               <div class="w3-display-middle" style="width:65%">
@@ -110,81 +127,32 @@ session_start();
                             
                                 <!-- Tabs -->
                                 <div id="Search" class="w3-container w3-white w3-padding-16 myLink">
+                                <form id = "searchCafeForm">
                                   <h3>Search with us</h3>
                                   <div class="w3-row-padding" style="margin:0 -16px;">
                                     <div class="w3-half">
-                                      <label>Location</label>
-                                      <input class="w3-input w3-border" type="text" placeholder="Location">
+                                      <label>Price Range</label>
+                                      <input class="w3-input w3-border" type="text" placeholder="Price Range" id="price">
                                     </div>
                                     <div class="w3-half">
-                                      <label>Price Range</label>
-                                      <input class="w3-input w3-border" type="text" placeholder="Price Range">
+                                      <label>Location</label>
+                                      <select name="location" id="location"> ';
+                                        <?php
+                                          foreach($cafes_locations as $l) {
+                                            echo '<option value="' . $l . '">' . $l . '</option>';
+                                          }
+                                        ?>
+                                      </select>
                                     </div>
                                   </div>
+                                        </br>
                                   <p><button class="w3-button w3-dark-grey">Search</button></p>
+                                </form>
                                 </div>
                             
                             </header>
-                            ';
-                            #cafe table
-                            echo '<div id="main-container" class="container">
-                            <h1 class="display-4">Cafe Listing</h1>
-                            <table id="cafeTable" class="table table-striped" border="1">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Cafe Name</th>
-                                        <th>Cafe Phone</th>
-                                        <th>Review</th>
-                                        <th>Price</th>
-                                        <th>Location</th>
-                                        <th>Book Now</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                            <a id="searchCafeBtn" class="btn btn-primary" href="searchCafe.html">Search for a Cafe</a>
-                        </div>';
-                            
-                        } else{
-                            #nav bar
-                            echo '<ul>
-                            <li><a class="active" href="simple_UI.html">Home</a></li>
-                            <li><a href="booking_page.php">Check Booking</a></li>
-                            <li><a href="booking_page.php">Make Booking</a></li>
-                            <li><a href="payment_service.php">Make Payment</a></li>
-                            <li style="float:right"><a class="active" href="facebook_login/login.php">Login</a></li>
-                            <li style="float:right"><a class="active" href="login.html">Sign Up</a></li>
-                          </ul>';
 
-                          #search bar
-                          echo '<!-- Header -->
-                          <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px">
-                            <img class="w3-image" src="cafe_background.jpg" alt="cafe" id="responsive-image">
-                            <div class="w3-display-middle" style="width:65%">
-                              <div class="w3-bar w3-black">
-                                <button class="w3-bar-item w3-button tablink" onclick="openLink(event, "Search");"><i class="fa fa-plane w3-margin-right"></i>Search</button>
-                          
-                              </div>
-                          
-                              <!-- Tabs -->
-                              <div id="Search" class="w3-container w3-white w3-padding-16 myLink">
-                                <h3>Search with us</h3>
-                                <div class="w3-row-padding" style="margin:0 -16px;">
-                                  <div class="w3-half">
-                                    <label>Location</label>
-                                    <input class="w3-input w3-border" type="text" placeholder="Location">
-                                  </div>
-                                  <div class="w3-half">
-                                    <label>Price Range</label>
-                                    <input class="w3-input w3-border" type="text" placeholder="Price Range">
-                                  </div>
-                                </div>
-                                <p><button class="w3-button w3-dark-grey">Search</button></p>
-                              </div>
-                          
-                          </header>
-                          ';
-                          #cafe table
-                            echo '<div id="main-container" class="container">
+                            <div id="main-container" class="container">
                             <h1 class="display-4">Cafe Listing</h1>
                             <table id="cafeTable" class="table table-striped" border="1">
                                 <thead class="thead-dark">
@@ -192,18 +160,13 @@ session_start();
                                         <th>Cafe Name</th>
                                         <th>Cafe Phone</th>
                                         <th>Review</th>
-                                        <th>Price</th>
                                         <th>Location</th>
                                         <th>Book Now</th>
                                     </tr>
                                 </thead>
                             </table>
-                            <a id="searchCafeBtn" class="btn btn-primary" href="searchCafe.html">Search for a Cafe</a>
-                        </div>';
-                            
-                        }
-                    ?>
-            
+                        </div>
+                        <label id="error" class="text-danger"></label>
         
             <script>
                 // Helper function to display error message
@@ -212,8 +175,8 @@ session_start();
                     $('#cafeTable').hide();
              
                     // Display an error under the main container
-                    $('#main-container')
-                        .append("<label>"+message+"</label>");
+                    $('#error').text(message);
+                    $('#error').show();
                 }
         
              
@@ -246,7 +209,6 @@ session_start();
                                     "<td>" + cafe.name + "</td>" +
                                     "<td>" + cafe.phone + "</td>" +
                                     "<td>" + cafe.avg_review + "</td>" +
-                                    "<td>" + cafe.price + "</td>" +
                                     "<td>" + cafe.location + "</td>" +
                                     "<td>" + "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>" + "</td>"; 
                                 rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
@@ -258,10 +220,61 @@ session_start();
                         // Errors when calling the service; such as network error, 
                         // service offline, etc
                         showError('There is a problem retrieving cafes data, please try again later.<br />'+error);
-        
-                        
-                   
                     } // error
+                });
+
+                $("#searchCafeForm").submit(async(event) => {  
+                    event.preventDefault();         
+                    $("#error").hide();
+                    // Change serviceURL to your own
+                    var price = $('#price').val()
+                    var i;
+                    var rows = "";
+                    for(i=1; i<=price; i++) {
+                      var location = $('#location').val()
+                      var serviceURL = "http://127.0.0.1:5000/cafes"+ "/" + i + "/" + location;
+
+                      try {
+                          const response =
+                            await fetch(
+                              serviceURL, { method: 'GET' }
+                            );
+                          const data = await response.json();
+                          if (response.ok) {
+                              console.log(data);
+                          }
+                          var cafes = data.cafes; //the arr is in data.books of the JSON data
+                          console.log(cafes);
+                          // array or array.length are false
+                          if (!cafes || !cafes.length) {
+                              // showError('No cafes found. Please try again.')
+                          } else {
+                              // for loop to setup all table rows with obtained book data
+                              for (const cafe of cafes) {
+
+                                  eachRow =
+                                      "<td>" + cafe.name + "</td>" +
+                                      "<td>" + cafe.phone + "</td>" +
+                                      "<td>" + cafe.avg_review + "</td>" +
+                                      "<td>" + cafe.location + "</td>" +
+                                      "<td>" + "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>" + "</td>"; 
+                                  rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                              }
+                          }
+                          
+                      } catch (error) {
+                          // Errors when calling the service; such as network error, 
+                          // service offline, etc
+                          showError('There is a problem retrieving cafes data, please try again later.<br />'+error);
+                      } // error
+                      // add all the rows to the table
+                      $('#cafeTable').show();
+                      $('#cafeTable tbody').empty();
+                      $('#cafeTable').append(rows);
+                    }
+                    if(!rows.length) {
+                      showError('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+' No cafes found. Please try again.');
+                    }
                 });
             </script>
  
