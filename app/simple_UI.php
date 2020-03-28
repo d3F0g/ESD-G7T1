@@ -4,7 +4,7 @@
   }
   $cafes_locations = [];
   $dsn = "mysql:host=localhost;dbname=esd";
-  $pdo = new PDO($dsn, "root", "root");
+  $pdo = new PDO($dsn, "root", "");
   $sql = 'select * from cafes';
   $stmt = $pdo->prepare($sql);
   $stmt->execute();
