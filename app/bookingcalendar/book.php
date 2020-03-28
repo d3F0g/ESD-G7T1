@@ -32,38 +32,66 @@ if(isset($_POST['submit'])){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.css">
   </head>
-  <h1 class="text-center">Book for Date: <?php echo date('m/d/Y', strtotime($date)); ?></h1><hr>
+  <h1 class="text-center">Book for Date: <?php echo date('m/d/Y', strtotime($date)); echo ", ";echo date('l', strtotime($date));?></h1><hr>
+  
   <h1 class="text-center">Location: <?php echo $cafe; ?></h1><hr>
-  <link rel="stylesheet" type="text/css" href="../../css/booktimeslot.css">
-  <div class="time-picker-container">
-  <input type="radio" name="AppointmentDateTime" id="radio-morning" />
-  <input type="radio" name="AppointmentDateTime" id="radio-afternoon" />
-  <input type="radio" name="AppointmentDateTime" id="radio-evening" />
-  <input type="radio" name="AppointmentDateTime" id="radio-night" />
-  <div class="clock-container">
-    <label for="radio-morning" class="pie pie-morning">
-      <span>Morning</span>
-    </label>
-    <label for="radio-afternoon" class="pie pie-afternoon">
-      <span>Afternoon</span>
-    </label>
-    <label for="radio-night" class="pie pie-night">
-      <span>Night</span>
-    </label>
-    <label for="radio-evening" class="pie pie-evening">
-      <span>Evening</span>
-    </label>
-    
-  </div>
+  
 
-  <h2 class="time-display">
-                            <span class="time-display-inner">
-                                <span>9AM to 12PM</span>
-                                <span>12PM to 3PM</span>
-                                <span>3PM to 6PM</span>
-                                <span>6PM to 9PM</span>
-                            </span>
-                        </h2>
+</head>
+
+
+<body>
+<link rel="stylesheet" type="text/css" href="../../css/booktimeslot.css">
+<div class="d-flex justify-content-center align-items-center container">
+  <button class="neu" id="block1">
+    <i class="material-icons">0800-0900</i>
+  </button>
+  <button class="neu" id="block1">
+    <i class="material-icons">0900-1000</i>
+  </button>
+  <button class="neu" id="block2">
+    <i class="material-icons">1000-1100</i>
+  </button>
+  <button class="neu" id="block3">
+    <i class="material-icons">1100-1200</i>
+  </button>
+  <button class="neu" id="block4">
+    <i class="material-icons">1200-1300</i>
+  </button>
+  <button class="neu" id="block5">
+    <i class="material-icons">1300-1400</i>
+  </button>
+  <button class="neu" id="block6">
+    <i class="material-icons">1400-1500</i>
+  </button>
+  <button class="neu" id="block7">
+    <i class="material-icons">1500-1600</i>
+  </button>
+  <button class="neu" id="block8">
+    <i class="material-icons">1600-1700</i>
+  </button>
+  <button class="neu" id="block9">
+    <i class="material-icons">1700-1800</i>
+  </button>
+  <button class="neu" id="block10">
+    <i class="material-icons">1800-1900</i>
+  </button>
+  <button class="neu" id="block11">
+    <i class="material-icons">1900-2000</i>
+  </button>
+  <button class="neu" id="block12">
+    <i class="material-icons">2000-2100</i>
+  </button>
+  <button class="neu" id="block13">
+    <i class="material-icons">2100-2200</i>
+  </button>
+  <button class="neu" id="block14">
+    <i class="material-icons">2200-2300</i>
+  </button>
+  
 </div>
+<script src="comply.js"></script>
+</body>
+
 
 </html>
