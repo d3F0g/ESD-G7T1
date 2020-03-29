@@ -65,11 +65,26 @@
     $("#addReviewForm").submit(async (event) => {
         //Prevents screen from refreshing when submitting
         event.preventDefault();
-
-        var ID = 1;
+        var foundReviewID;
+        var getReviewIDURL = "http://127.0.0.1:5001/reviews/get_id";
+        try {
+            const response =
+                await fetch(
+                    getReviewIDURL, { method: 'GET' }
+                );
+                const data = await response.json();
+                if (response.ok) {
+                    console.log(data);
+                    foundReviewID = data;
+                }
+        } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            showError('Cannot get Review ID'+error);
+        } 
         var serviceURL = "http://127.0.0.1:5001/reviews/add/";
-        var homeURL = "http://127.0.0.1/ESDProject/app/simple_UI.php";
-        serviceURL += ID;
+        var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php";
+        serviceURL += foundReviewID;
 
         //Get form data 
         var userID = $('#userID').val();

@@ -1,4 +1,5 @@
 <?php
+session_start();
 if(isset($_POST['cafeID'])){
     $cafeID = $_POST['cafeID'];
 }
@@ -13,7 +14,6 @@ if(isset($_POST['block'])){
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -42,9 +42,9 @@ if(isset($_POST['block'])){
 <body>
     <div id="container">
         <div class="productBlock">
-            <p><b>Cafe Name:</b> <?php echo $_GET['cafename']?></p>
-            <p><b>Booking Date:</b> #DATE</p>
-            <p><b>Booking Time:</b> #TIME</p>
+            <p><b>Cafe Name:</b> <?php echo $_POST["cafeID"]; ?></p>
+            <p><b>Booking Date:</b> <?php echo $_POST["date"]; ?></p>
+            <p><b>Booking Time:</b> <?php echo $_POST["block"]; ?></p>
 
             <!-- Your PayPal Button here -->
 
@@ -90,15 +90,34 @@ if(isset($_POST['block'])){
             },
 
             onApprove: async function bookingPOST(){
-                        var serviceURL = "http://127.0.0.1:5000/booking/4";
-                        var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php?msg=Booking%20Confirmed!";
+                    var foundBookingID;
+                    var getBookingIDURL = "http://127.0.0.1:5000/booking/get_id";
+                    try {
+                        const response =
+                            await fetch(
+                                getBookingIDURL, { method: 'GET' }
+                            );
+                            const data = await response.json();
+                            if (response.ok) {
+                                console.log(data);
+                                foundBookingID = data;
+                            }
+                    } catch (error) {
+                        // Errors when calling the service; such as network error, 
+                        // service offline, etc
+                        showError('Cannot get Booking ID'+error);
+                    } 
+                    var serviceURL = "http://127.0.0.1:5000/booking/";
+                    serviceURL += foundBookingID;
+                    var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php?msg=Booking%20Confirmed!";
 
                     //Get form data 
-                    var userID = "2";
-                    var cafeID = "2";
-                    var seat_no = "3";
-                    var block = "3";
-                    var date = "2020-03-30";
+                    var userID = <?php echo $_SESSION["userData"]["userID"]; ?>;
+                    var cafeID = <?php echo $_POST["cafeID"]; ?>;
+                    
+                    var seat_no = "5";
+                    var block = <?php echo $_POST["block"]; ?>;
+                    var date = <?php echo $_POST["date"]; ?>;
                     var status = "Confirmed";
 
                     try {
@@ -129,7 +148,6 @@ if(isset($_POST['block'])){
 
             } // error
                     }
-
                 }).render('#paypal-button-container');
 
 
