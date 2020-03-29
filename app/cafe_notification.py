@@ -15,8 +15,7 @@ def receiveNotification():
     channel.exchange_declare(exchange=exchangename, exchange_type='topic')
 
     # prepare a queue for receiving messages
-    channelqueue = channel.queue_declare(queue='payment', exclusive=True) # '' indicates a random unique queue name; 'exclusive' indicates the queue is used only by this receiver and will be deleted if the receiver disconnects.
-        # If no need durability of the messages, no need durable queues, and can use such temp random queues.
+    channelqueue = channel.queue_declare(queue='booking_payment', durable=True)
     queue_name = channelqueue.method.queue
     channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='booking.payment') # bind the queue to the exchange via the key
 

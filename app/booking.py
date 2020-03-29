@@ -88,9 +88,9 @@ def get_all():
 # HTTP GET function to retrieve a specified booking
 @app.route("/booking/<int:booking_id>")
 def find_booking(booking_id):
-    bookings = Booking.query.filter_by(ID=booking_id)
-    if bookings:
-        return jsonify({"bookings": [booking.json() for booking in Booking.query.filter_by( ID=booking_id)]})
+    booking = Booking.query.filter_by(ID=booking_id).first()
+    if booking:
+        return jsonify(booking.json())
     return jsonify({"message": "Booking not found."}), 404
 
 # HTTP GET function to retrieve the latest booking ID from the database
