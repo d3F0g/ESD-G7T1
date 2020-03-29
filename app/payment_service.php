@@ -25,7 +25,7 @@
 <body>
     <div id="container">
         <div class="productBlock">
-            <p><b>Cafe Name:</b> #CAFEID</p>
+            <p><b>Cafe Name:</b> <?php echo $_GET['cafename']?></p>
             <p><b>Booking Date:</b> #DATE</p>
             <p><b>Booking Time:</b> #TIME</p>
 
@@ -73,8 +73,8 @@
             },
 
             onApprove: async function bookingPOST(){
-                        var serviceURL = "http://127.0.0.1:5000/booking/3";
-                        var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php";
+                        var serviceURL = "http://127.0.0.1:5000/booking/4";
+                        var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php?msg=Booking%20Confirmed!";
 
                     //Get form data 
                     var userID = "2";
@@ -112,11 +112,6 @@
 
             } // error
                     }
-
-                
-                        
-
-
 
                 }).render('#paypal-button-container');
 
