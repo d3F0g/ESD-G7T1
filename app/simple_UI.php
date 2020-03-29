@@ -109,11 +109,7 @@
                             <li><a href="payment_service.php">Make Payment</a></li>
                             <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
                           </ul>
-                            <?php
-                            if(isset( $_SESSION['userData']['first_name'])){
-                              echo "<h1>Hello, " + $_SESSION['userData']['first_name'] + "!</h1>";
-                            }
-                            ?>
+                            <h1>Hello, <?php echo $_SESSION['userData']['first_name']; ?> !</h1>
                             
 
 

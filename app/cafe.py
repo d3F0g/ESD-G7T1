@@ -15,21 +15,27 @@ class Cafe(db.Model):
 
     ID = db.Column(db.Integer(), primary_key=True) 
     name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(64), nullable=False)
     phone = db.Column(db.String(15), nullable=False)
+    poc = db.Column(db.String(100), nullable=False)
     avg_review = db.Column(db.Float(precision=2), nullable=False) 
     price = db.Column(db.Integer(), nullable=False) 
     location = db.Column(db.String(50), nullable=False)
 
-    def __init__(self, ID, name, phone, avg_review, price, location):
+    def __init__(self, ID, name, email, password, phone,poc, avg_review, price, location):
         self.ID = ID
         self.name = name
+        self.email = email
+        self.password = password
         self.phone = phone
+        self.poc = poc
         self.avg_review = avg_review
         self.price = price
         self.location = location
 
     def json(self):
-        return {"cafeID": self.ID, "name": self.name, "phone": self.phone, "average review": self.avg_review, "price": self.price, "location": self.location}
+        return {"cafeID": self.ID, "name": self.name, "email": self.email,"password": self.password, "phone": self.phone,"poc": self.poc, "average review": self.avg_review, "price": self.price, "location": self.location}
 
 
 @app.route("/cafes") 
