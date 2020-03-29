@@ -1,3 +1,20 @@
+<?php
+if(isset($_POST['cafeID'])){
+    $cafeID = $_POST['cafeID'];
+}
+if(isset($_POST['seat_no'])){
+    $seat = $_POST['seat_no'];
+}
+if(isset($_POST['date'])){
+    $date = $_POST['date'];
+}
+if(isset($_POST['block'])){
+    $block = $_POST['block'];
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>

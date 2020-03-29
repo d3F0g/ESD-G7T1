@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `booking` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `userID` int(10) NOT NULL,
   `cafeID` int(10) NOT NULL,
-  `seat_no` int(10) NOT NULL,
+  `seat_no` varchar(10) NOT NULL,
   `block` int(2) NOT NULL,
   `date` date NOT NULL,
   `status` enum('Confirmed','Cancelled') NOT NULL,

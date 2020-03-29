@@ -2,7 +2,7 @@
 $cafe = $_GET['cafename'];
 echo "<h3><b>Cafe Name</b>: ".$cafe."</h3>";
 function build_calendar($month, $year, $cafe) {
-    $mysqli = new mysqli('localhost', 'root', '', 'bookingcalendar');
+    $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
     $stmt = $mysqli->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date) = ?");
     $stmt->bind_param('ss', $month, $year);
     $bookings = array();
@@ -105,7 +105,7 @@ function build_calendar($month, $year, $cafe) {
          }elseif(in_array($date, $bookings)){
              $calendar.="<td class='$today'><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>Already Booked</button>";
          }else{
-             $calendar.="<td class='$today'><h4>$currentDay</h4> <a href='book.php?date=$date&cafe=$cafe' class='btn btn-success btn-xs'>Book</a>";
+             $calendar.="<td class='$today'><h4>$currentDay</h4> <a href='seatings.php?date=$date&cafe=$cafe' class='btn btn-success btn-xs'>Book</a>";
          }
             
             

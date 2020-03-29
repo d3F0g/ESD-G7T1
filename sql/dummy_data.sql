@@ -12,7 +12,7 @@ values (1, "Lola's Cafe","kindadopey@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.n
 
 Insert into booking
 (ID, userID, cafeID, seat_no, block,date, status)
-values (1,1,1,1,6,"2020-03-30","Confirmed"),
-(2,3,2,6,3,"2020-03-30","Confirmed");
+values (1,1,1,"1A",6,"2020-03-30","Confirmed"),
+(2,3,2,"6A",3,"2020-03-30","Confirmed");
 
 

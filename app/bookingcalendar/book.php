@@ -5,6 +5,9 @@ if(isset($_GET['date'])){
 if(isset($_GET['cafe'])){
     $cafe = $_GET['cafe'];
 }
+if(isset($_GET['seats'])){
+  $seats = $_GET['seats'];
+}
 
 if(isset($_POST['submit'])){
     $name = $_POST['name'];
@@ -18,9 +21,9 @@ if(isset($_POST['submit'])){
     $mysqli->close();
 }
 
-
+// Retrieves the cafeID-------------------------DO NOT TOUCH-------------------------------------
 $dsn = "mysql:host=localhost;dbname=esd";
-$pdo = new PDO($dsn, "root", "");
+$pdo = new PDO($dsn, "root", "root");
 $sql = "select ID from cafes where name=:name";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':name', $cafe, PDO::PARAM_STR);
@@ -32,15 +35,17 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 $stmt = null;
 $pdo = null;
 //retrieve the cafeID
-// $cafeID = $results[0];
-// $id = (int)$cafeID;
+$cafeID = $results[0];
+$id = (int)$cafeID;
+$seat_no = unserialize($seats)[0];
 
-//retrieve the block from booking
+//retrieve the block from booking----------------with CafeID and SeatID---------------------
 $dsn = "mysql:host=localhost;dbname=esd";
-$pdo = new PDO($dsn, "root", "");
-$sql = "select block from booking where cafeID=:cafeID";
+$pdo = new PDO($dsn, "root", "root");
+$sql = "select block from booking where cafeID=:cafeID and seat_no=:seat_no";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':cafeID', $cafeID, PDO::PARAM_STR);
+$stmt->bindParam(':seat_no', $seat_no, PDO::PARAM_STR);
 $stmt->execute();
 $timings = [];
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -73,55 +78,60 @@ $pdo = null;
 
 
 <body>
-<form action="../payment_service.php" method="GET">
-
+<form action="../payment_service.php" method="POST">
+<?php
+  // echo "<input type='hidden' name='userID' value=''>";
+  echo "<input type='hidden' name='cafeID' value='$id'>";
+  echo "<input type='hidden' name='seat_no' value='$seat_no'>";
+  echo "<input type='hidden' name='date' value='$date'>";
+?>
 
 <link rel="stylesheet" type="text/css" href="../../css/booktimeslot.css">
 <div class="d-flex justify-content-center align-items-center container">
 
-  <button class="neu" id="1">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="1">
     <i class="material-icons">0800-0900</i>
   </button>
-  <button class="neu" id="2">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="2">
     <i class="material-icons">0900-1000</i>
   </button>
-  <button class="neu" id="3">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="3">
     <i class="material-icons">1000-1100</i>
   </button>
-  <button class="neu" id="4">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="4">
     <i class="material-icons">1100-1200</i>
   </button>
-  <button class="neu" id="5">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="5">
     <i class="material-icons">1200-1300</i>
   </button>
-  <button class="neu" id="6">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="6">
     <i class="material-icons">1300-1400</i>
   </button>
-  <button class="neu" id="7">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="7">
     <i class="material-icons">1400-1500</i>
   </button>
-  <button class="neu" id="8">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="8">
     <i class="material-icons">1500-1600</i>
   </button>
-  <button class="neu" id="9">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="9">
     <i class="material-icons">1600-1700</i>
   </button>
-  <button class="neu" id="10">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="10">
     <i class="material-icons">1700-1800</i>
   </button>
-  <button class="neu" id="11">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="11">
     <i class="material-icons">1800-1900</i>
   </button>
-  <button class="neu" id="12">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="12">
     <i class="material-icons">1900-2000</i>
   </button>
-  <button class="neu" id="13">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="13">
     <i class="material-icons">2000-2100</i>
   </button>
-  <button class="neu" id="14">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="14">
     <i class="material-icons">2100-2200</i>
   </button>
-  <button class="neu" id="15">
+  <button class="neu" name="block" onclick="save_click(this.id)" id="15">
     <i class="material-icons">2200-2300</i>
   </button>
   
@@ -134,6 +144,9 @@ $pdo = null;
     el.style.color = "white";
     el.disabled = true;
 }
+  function save_click(clicked_id) {
+    document.getElementById(clicked_id).value = clicked_id;
+  }
   var listing = <?php echo json_encode($timings); ?>;
   var i;
   for (i of listing) {

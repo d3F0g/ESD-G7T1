@@ -37,7 +37,7 @@
         <script src="login_animation.js"></script>
 
         
-        <button id="redirection" onclick="window.location='../owners_login.html';" class="btncls">Create an Account!</button>
+        <button id="redirection" onclick="window.location='owners_login.html';" class="btncls">Create an Account!</button>
         
 </html>]
 
