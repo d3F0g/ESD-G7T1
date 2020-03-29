@@ -50,6 +50,7 @@ session_start();
                     <th>BookingID</th>
                     <th>CafeID</th>
                     <th>Date</th>
+                    <th>Status</th>
                     <th>Review</th>
                 </tr>
             </thead>
@@ -82,25 +83,26 @@ session_start();
                 if (response.ok) {
                     console.log(data);
                 }
-                // var bookings = data.bookings; //the arr is in data.books of the JSON data
-                // console.log(bookings);
+                var bookings = data.bookings; //the arr is in data.books of the JSON data
+                console.log(bookings);
 
                 // array or array.length are false
-                if (!data) {
+                if (!bookings || !bookings.length) {
                     showError('Booking list empty or undefined.')
                 } else {
                     // for loop to setup all table rows with obtained book data
                     var rows = "";
-                    // for (var booking in data)) {
+                    for (const booking of bookings) {
 
                         eachRow =
-                            "<td>" + data.ID + "</td>" +
-                            "<td>" + data.cafeID + "</td>" +
-                            "<td>" + data.date + "</td>" +
-                            "<td>" + "<a id='bookBtn' class='btn btn-primary' href='user_review.php?bookingID=" + data.ID + "&cafeID=" + data.cafeID + "&userID=" + data.userID + "'>Give Review!</a>" + "</td>";
+                            "<td>" + booking.ID + "</td>" +
+                            "<td>" + booking.cafeID + "</td>" +
+                            "<td>" + booking.date + "</td>" +
+                            "<td>" + booking.status + "</td>" +
+                            "<td>" + "<a id='bookBtn' class='btn btn-primary' href='user_review.php?bookingID=" + booking.ID + "&cafeID=" + booking.cafeID + "&userID=" + booking.userID + "'>Give Review!</a>" + "</td>";
                         rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
 
-                    // }
+                    }
                     // add all the rows to the table
                     $('#bookingTable').append(rows);
                 }

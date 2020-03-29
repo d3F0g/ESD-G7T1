@@ -98,10 +98,10 @@ def find_latestID():
     else:
         return str(1)
     
-@app.route("/reviews/<int:reviewID>", methods=['POST'])
-def create_review(reviewID):
+@app.route("/reviews/add/<int:ID>", methods=['POST'])
+def create_review(ID):
     data = request.get_json()
-    review = Review(reviewID, **data)
+    review = Review(ID, **data)
     try:
         db.session.add(review)
         db.session.commit()

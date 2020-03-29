@@ -109,12 +109,7 @@
                             <li><a href="payment_service.php">Make Payment</a></li>
                             <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
                           </ul>
-                            <h1>Hello, <?php echo $_SESSION['userData']['first_name']; ?> !</h1><br>
-                            <?php
-                             if (isset($_GET['msg'])){
-                               echo "<h1>".$_GET['msg']."</h1>";
-                             }
-                            ?>
+                            <h1>Hello, <?php echo $_SESSION['userData']['first_name']; ?> !</h1>
                             
 
 
@@ -186,7 +181,6 @@
                 $(async() => {           
                     // Change serviceURL to your own
                     var serviceURL = "http://127.0.0.1:5000/cafes";
-             
                     try {
                         const response =
                          await fetch(
@@ -252,6 +246,7 @@
                           } else {
                               // for loop to setup all table rows with obtained book data
                               for (const cafe of cafes) {
+
                                   eachRow =
                                       "<td>" + cafe.name + "</td>" +
                                       "<td>" + cafe.phone + "</td>" +
@@ -277,7 +272,7 @@
                     }
                 });
             </script>
- 
+            
                         
         </body>
         </html>
