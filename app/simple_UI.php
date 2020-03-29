@@ -103,10 +103,8 @@
           <body>
 
           <ul>
-                            <li><a class="active" href="simple_UI.html">Home</a></li>
+                            <li><a class="active" href="simple_UI.php">Home</a></li>
                             <li><a href="booking_page.php">Check Booking</a></li>
-                            <li><a href="user_review.php">Give Review</a></li>
-                            <li><a href="payment_service.php">Make Payment</a></li>
                             <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
                           </ul>
                             <h1>Hello, <?php echo $_SESSION['userData']['first_name']; ?> !</h1>
