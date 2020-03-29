@@ -20,7 +20,7 @@ if(isset($_POST['submit'])){
 
 
 $dsn = "mysql:host=localhost;dbname=esd";
-$pdo = new PDO($dsn, "root", "root");
+$pdo = new PDO($dsn, "root", "");
 $sql = "select ID from cafes where name=:name";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':name', $cafe, PDO::PARAM_STR);
@@ -32,12 +32,12 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 $stmt = null;
 $pdo = null;
 //retrieve the cafeID
-$cafeID = $results[0];
-$id = (int)$cafeID;
+// $cafeID = $results[0];
+// $id = (int)$cafeID;
 
 //retrieve the block from booking
 $dsn = "mysql:host=localhost;dbname=esd";
-$pdo = new PDO($dsn, "root", "root");
+$pdo = new PDO($dsn, "root", "");
 $sql = "select block from booking where cafeID=:cafeID";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':cafeID', $cafeID, PDO::PARAM_STR);
@@ -73,9 +73,12 @@ $pdo = null;
 
 
 <body>
-<form action="lvin.php" method="POST">
+<form action="../payment_service.php" method="GET">
+
+
 <link rel="stylesheet" type="text/css" href="../../css/booktimeslot.css">
 <div class="d-flex justify-content-center align-items-center container">
+
   <button class="neu" id="1">
     <i class="material-icons">0800-0900</i>
   </button>
