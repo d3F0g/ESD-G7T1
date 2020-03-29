@@ -4,7 +4,7 @@
   }
   $cafes_locations = [];
   $dsn = "mysql:host=localhost;dbname=esd";
-  $pdo = new PDO($dsn, "root", "root");
+  $pdo = new PDO($dsn, "root", "");
   $sql = 'select * from cafes';
   $stmt = $pdo->prepare($sql);
   $stmt->execute();
@@ -181,7 +181,6 @@
                 $(async() => {           
                     // Change serviceURL to your own
                     var serviceURL = "http://127.0.0.1:5000/cafes";
-             
                     try {
                         const response =
                          await fetch(
@@ -273,7 +272,7 @@
                     }
                 });
             </script>
- 
+            
                         
         </body>
         </html>
