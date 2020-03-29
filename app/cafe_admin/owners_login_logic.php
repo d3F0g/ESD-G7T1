@@ -6,7 +6,7 @@ $pass = $_POST['loginPassword'];
 //Add registration details
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "root";
 $dbname = "esd";
 
 try {
@@ -24,6 +24,7 @@ try {
     $cafename = $row['name'];
     $cafephone = $row['phone'];
     $location = $row['location'];
+    $cafeID = $row['ID'];
 
 
     if (password_verify($pass, $db_password)) {
@@ -31,6 +32,8 @@ try {
         $_SESSION['cafename'] = $cafename; 
         $_SESSION['cafephone'] = $cafephone;
         $_SESSION['location'] = $location;
+        $_SESSION['cafeID'] = $cafeID;
+        
         header("Location: ../cafe_admin/landing.php");
         exit();
     } else {

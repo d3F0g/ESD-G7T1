@@ -83,6 +83,12 @@ def send_error_review(review):
 def get_all():
     return jsonify({"reviews": [review.json() for review in Review.query.all()]})
 
+# retrieve all the reviews belonging to a specific cafe
+@app.route("/reviews/cafe/<int:cafeID>")
+def get_cafe_reviews(cafeID):
+    return jsonify({"reviews": [review.json() for review in Review.query.filter_by(cafeID=cafeID)]}
+    )
+
 # retrieve all the reviews belonging to a user
 @app.route("/reviews/<int:userID>")
 def get_reviews(userID):
