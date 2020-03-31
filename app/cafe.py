@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
+import simplejson as json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/esd'
@@ -35,7 +36,7 @@ class Cafe(db.Model):
         self.location = location
 
     def json(self):
-        return {"cafeID": self.ID, "name": self.name, "email": self.email,"password": self.password, "phone": self.phone,"poc": self.poc, "average review": self.avg_review, "price": self.price, "location": self.location}
+        return {"cafeID": self.ID, "name": self.name, "email": self.email,"password": self.password, "phone": self.phone,"poc": self.poc, "avg_review": self.avg_review, "price": self.price, "location": self.location}
 
 
 @app.route("/cafes") 

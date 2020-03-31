@@ -4,7 +4,7 @@
   }
   $cafes_locations = [];
   $dsn = "mysql:host=localhost;dbname=esd";
-  $pdo = new PDO($dsn, "root", "root");
+  $pdo = new PDO($dsn, "root", "");
   $sql = 'select * from cafes';
   $stmt = $pdo->prepare($sql);
   $stmt->execute();
@@ -125,7 +125,7 @@
                                       <label>Price Range</label>
                                       <!-- THIS IS FOR SLIDER-->
                                       <div class="slidecontainer" style="padding-top:10px">
-                                        <input type="range" min="1" max="5" value="3" name="price" id="rangeInput" onchange="updateTextInput(this.value);">
+                                        <input type="range" min="1" max="5" value="3" name="price" id="price" onchange="updateTextInput(this.value);">
                                         <input type="text" id="textInput" value="3" onchange="updateRangeInput(this.value);">
                                         <script>function updateTextInput(val) {
                                                   document.getElementById('textInput').value=val; 
@@ -142,6 +142,7 @@
                                       <label>Location</label>
                                       <div class="w3-input">
                                       <select name="location" id="location"> ';
+                                        <option selected></option>
                                         <?php
                                           foreach($cafes_locations as $l) {
                                             echo '<option value="' . $l . '">' . $l . '</option>';
@@ -201,7 +202,6 @@
                             // for loop to setup all table rows with obtained book data
                             var rows = "";
                             for (const cafe of cafes) {
-
                               eachRow =
                                 "<div class='w3-third w3-margin-bottom'>" +
                                 "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
@@ -211,6 +211,7 @@
                                 "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
                                 "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
                                 "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
+                                "<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.cafeID + "'>View Reviews</a>" +
                                 "</div>"+
                                 "</div>"; 
                               rows += eachRow ;
@@ -254,13 +255,19 @@
                               // for loop to setup all table rows with obtained book data
                               for (const cafe of cafes) {
 
-                                  eachRow =
-                                      "<td>" + cafe.name + "</td>" +
-                                      "<td>" + cafe.phone + "</td>" +
-                                      "<td>" + cafe.avg_review + "</td>" +
-                                      "<td>" + cafe.location + "</td>" +
-                                      "<td>" + "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>" + "</td>"; 
-                                  rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                                eachRow =
+                                  "<div class='w3-third w3-margin-bottom'>" +
+                                  "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
+                                  "<div class='w3-container w3-white'>"+
+                                  "<h3>" + cafe.name + "</h3>" +
+                                  "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
+                                  "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
+                                  "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
+                                  "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
+                                  "<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.ID + "'>View Reviews</a>" +
+                                  "</div>"+
+                                  "</div>"; 
+                                rows += eachRow ;
                               }
                           }
                           
@@ -271,12 +278,12 @@
                       } // error
                       // add all the rows to the table
                       $('#cafeTable').show();
-                      $('#cafeTable tbody').empty();
+                      $('#cafeTable').empty();
                       $('#cafeTable').append(rows);
                     }
-                    if(!rows.length) {
-                      showError('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+' No cafes found. Please try again.');
-                    }
+                    // if(!rows.length) {
+                    //   showError('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+' No cafes found. Please try again.');
+                    // }
                 });
             </script>
             
