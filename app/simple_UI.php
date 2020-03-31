@@ -4,7 +4,7 @@
   }
   $cafes_locations = [];
   $dsn = "mysql:host=localhost;dbname=esd";
-  $pdo = new PDO($dsn, "root", "");
+  $pdo = new PDO($dsn, "root", "root");
   $sql = 'select * from cafes';
   $stmt = $pdo->prepare($sql);
   $stmt->execute();
@@ -107,18 +107,15 @@
                             <li><a href="booking_page.php">Check Booking</a></li>
                             <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
                           </ul>
-                            <h1>Hello, <?php echo $_SESSION['userData']['first_name']; ?> !</h1>
-                            
-
+                    
+                            <h1 style="text-align:center; font-family: Times New Roman, Times, serif; font-size:50px; font-style:italic">Hello, <?php echo $_SESSION['userData']['first_name']; ?> !</h1>
+                          
 
                             <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px">
-                              <img class="w3-image" src="cafe_background.jpg" alt="cafe" id="responsive-image">
-                              <div class="w3-display-middle" style="width:65%">
-                                <div class="w3-bar w3-black">
-                                  <button class="w3-bar-item w3-button tablink" onclick="openLink(event, "Search");"><i class="fa fa-plane w3-margin-right"></i>Search</button>
-                            
-                                </div>
-                            
+                            <img class="w3-image" src="white.jpg" alt="cafe" id="responsive-image" style="max-height:350px">
+
+                              
+                              <div class="w3-display-middle" style="width:90%">
                                 <!-- Tabs -->
                                 <div id="Search" class="w3-container w3-white w3-padding-16 myLink">
                                 <form id = "searchCafeForm">
@@ -130,6 +127,7 @@
                                     </div>
                                     <div class="w3-half">
                                       <label>Location</label>
+                                      <div class="w3-input">
                                       <select name="location" id="location"> ';
                                         <?php
                                           foreach($cafes_locations as $l) {
@@ -137,29 +135,22 @@
                                           }
                                         ?>
                                       </select>
+                                        </div>
                                     </div>
                                   </div>
                                         </br>
-                                  <p><button class="w3-button w3-dark-grey">Search</button></p>
+                                  <p><button class="w3-button w3-black" style="width:25%">Search</button></p>
                                 </form>
                                 </div>
                             
                             </header>
 
                             <div id="main-container" class="container">
-                            <h1 class="display-4">Cafe Listing</h1>
-                            <table id="cafeTable" class="table table-striped" border="1">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Cafe Name</th>
-                                        <th>Cafe Phone</th>
-                                        <th>Review</th>
-                                        <th>Location</th>
-                                        <th>Book Now</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                              <div class='w3-row-padding w3-padding-16' id="cafeTable">
+
+                              </div>
+                            
+                            </div>
                         <label id="error" class="text-danger"></label>
         
             <script>
@@ -198,13 +189,18 @@
                             var rows = "";
                             for (const cafe of cafes) {
 
-                                eachRow =
-                                    "<td>" + cafe.name + "</td>" +
-                                    "<td>" + cafe.phone + "</td>" +
-                                    "<td>" + cafe.avg_review + "</td>" +
-                                    "<td>" + cafe.location + "</td>" +
-                                    "<td>" + "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>" + "</td>"; 
-                                rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                              eachRow =
+                                "<div class='w3-third w3-margin-bottom'>" +
+                                "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
+                                "<div class='w3-container w3-white'>"+
+                                "<h3>" + cafe.name + "</h3>" +
+                                "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
+                                "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
+                                "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
+                                "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
+                                "</div>"+
+                                "</div>"; 
+                              rows += eachRow ;
                             }
                             // add all the rows to the table
                             $('#cafeTable').append(rows);
