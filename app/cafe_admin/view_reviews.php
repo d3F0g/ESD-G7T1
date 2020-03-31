@@ -2,9 +2,10 @@
   if(!session_id()) {
     session_start();
   }
+  $cafeID = $_GET["cafeid"];
   $cafes_locations = [];
   $dsn = "mysql:host=localhost;dbname=esd";
-  $pdo = new PDO($dsn, "root", "root");
+  $pdo = new PDO($dsn, "root", "");
   $sql = 'select * from cafes';
   $stmt = $pdo->prepare($sql);
   $stmt->execute();
@@ -89,41 +90,42 @@
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
 
-    
+    </br>
 
     <title>View All Reviews</title>
-    <link rel="stylesheet" href="http://bootswatch.com/darkly/bootstrap.min.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-    <body>
-        
-          <body>
 
+          
+        <body class="w3-theme-l5">
+            <!-- Navbar -->
             <div class="w3-top">
-                <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-                    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-                    <a href="landing.php" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i></a>
-                    <a href="view_reviews.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
-                    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
-                    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
-                
-                <div class="w3-dropdown-hover w3-hide-small">
-                    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
-                </div>
-
-                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-                    <img src="cafe.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-                </a>
-
-                </div>
-            </div> <br>
+            <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+            <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+            <?php
+            echo "<a href='landing.php?cafeid=" . $cafeID . "'class='w3-bar-item w3-button w3-padding-large w3-theme-d4'><i class='fa fa-home w3-margin-right'></i></a>";
+            ?>
+            <a href="view_reviews.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="View Reviews">View Reviews</a>
+            <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
+            <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
+            <div class="w3-dropdown-hover w3-hide-small">
+                <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
+            </div> -->
+            
+            
+            <a href="owners_logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Log Out">Logout</a>
+            
+            </div>
+            </div>
+            <br>
 
 
             <div id="main-container" class="container">
-            <h1 class="display-4">View All Reviews for <?php echo $_SESSION["cafename"]?></h1>
+            <h1 class="display-4">All reviews for <?php echo $_SESSION["cafename"]?></h1>
             <table id="reviewsTable" class="table table-striped" border="1">
                 <thead class="thead-dark">
                     <tr>
@@ -136,6 +138,8 @@
                     </tr>
                 </thead>
             </table>
+            <label id="error" class="text-danger"></label>
+            </div>
 
             <script>
                 // Helper function to display error message
@@ -168,7 +172,7 @@
                         console.log(reviews);
                         // array or array.length are false
                         if (!reviews || !reviews.length) {
-                            showError('Cafes list empty or undefined.')
+                            showError('No reviews made. :(')
                         } else {
                             // for loop to setup all table rows with obtained book data
                             var rows = "";

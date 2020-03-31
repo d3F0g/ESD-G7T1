@@ -110,6 +110,14 @@ def find_userid(user_id):
         return jsonify({"bookings": [booking.json() for booking in Booking.query.filter_by( userID=user_id)]})
     return jsonify({"message": "Booking not found."}), 404
 
+# HTTP GET function to retrieve the cafeID from the database
+@app.route("/booking/cafe/<int:cafe_id>")
+def find_cafeid(cafe_id):
+    bookings = Booking.query.filter_by(cafeID=cafe_id)
+    if bookings:
+        return jsonify({"bookings": [booking.json() for booking in Booking.query.filter_by( cafeID=cafe_id)]})
+    return jsonify({"message": "Booking not found."}), 404
+
 # HTTP POST function to create a new booking
 @app.route("/booking/<int:booking_id>", methods=['POST'])
 def create_booking(booking_id):

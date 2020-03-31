@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(isset($_POST['cafe'])){
+    $name = $_POST['cafe'];
+}
 if(isset($_POST['cafeID'])){
     $cafeID = $_POST['cafeID'];
 }
@@ -11,6 +14,55 @@ if(isset($_POST['date'])){
 }
 if(isset($_POST['block'])){
     $block = $_POST['block'];
+}
+
+$date = json_encode($date);
+
+$bookTime = "";
+if($block == 1) {
+    $bookTime = "0800-0900";
+} 
+if($block== 2) {
+    $bookTime = "0900-1000";
+}
+if($block == 3) {
+    $bookTime = "1000-1100";
+}
+if($block == 4) {
+    $bookTime = "1100-1200";
+}
+if($block == 5) {
+    $bookTime = "1200-1300";
+}
+if($block == 6) {
+    $bookTime = "1300-1400";
+}
+if($block == 7) {
+    $bookTime = "1400-1500";
+}
+if($block == 8) {
+    $bookTime = "1500-1600";
+}
+if($block == 9) {
+    $bookTime = "1600-1700";
+}
+if($block == 10) {
+    $bookTime = "1700-1800";
+}
+if($block == 11) {
+    $bookTime = "1800-1900";
+}
+if($block == 12) {
+    $bookTime = "1900-2000";
+}
+if($block == 13) {
+    $ookTime = "2000-2100";
+}
+if($block == 14) {
+    $bookTime = "2100-2200";
+}
+if($block == 15) {
+    $bookTime = "2200-2300";
 }
 
 ?>
@@ -42,9 +94,9 @@ if(isset($_POST['block'])){
 <body>
     <div id="container">
         <div class="productBlock">
-            <p><b>Cafe Name:</b> <?php echo $_POST["cafeID"]; ?></p>
+            <p><b>Cafe Name:</b> <?php echo $_POST["cafe"]; ?></p>
             <p><b>Booking Date:</b> <?php echo $_POST["date"]; ?></p>
-            <p><b>Booking Time:</b> <?php echo $_POST["block"]; ?></p>
+            <p><b>Booking Time:</b> <?php echo $bookTime; ?></p>
 
             <!-- Your PayPal Button here -->
 
@@ -117,7 +169,10 @@ if(isset($_POST['block'])){
                     
                     var seat_no = "5";
                     var block = <?php echo $_POST["block"]; ?>;
-                    var date = <?php echo $_POST["date"]; ?>;
+                    var date = <?php echo $date; ?>;
+                    // console.log(date)
+                    // var validDate = new Date(date);
+                    // console.log(validDate)
                     var status = "Confirmed";
 
                     try {

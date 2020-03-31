@@ -1,5 +1,25 @@
 <!DOCTYPE html>
+
+<?php
+    $cafeID = $_GET["cafeid"];
+?>
+
 <html>
+  <!-- Latest compiled and minified JavaScript -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script 
+    src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+    
+    <script 
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+
 <title>Café Profile</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,19 +36,16 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="landing.php" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i></a>
-  <a href="view_reviews.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
+  <?php
+  echo "<a href='landing.php?cafeid=" . $cafeID . "'class='w3-bar-item w3-button w3-padding-large w3-theme-d4'><i class='fa fa-home w3-margin-right'></i></a>";
+  echo "<a href='view_reviews.php?cafeid=" .$cafeID . "'class='w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white' title='View Reviews'>View Reviews</a>";
+  ?>
+  <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
-  </div>
+  </div> -->
   
-  <a href="owners_logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white">
-    <img src="../logout_wave.png" style="height:35px;width:50px">
-  </a>
-  
-  <br>
   
   <a href="owners_logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Log Out">Logout</a>
   
@@ -52,16 +69,16 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <h4 class="w3-center">Café Profile</h4>
          <p class="w3-center"><img src="cafe.jpg" class="w3-circle" style="height:106px;width:145px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php session_start(); echo $_SESSION['cafename'];?> </p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php echo $_SESSION['location'];?></p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php echo $_SESSION['cafephone'];?></p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php session_start(); echo $_SESSION['cafename'];?> </p>
+         <p><i class="fa fa-map-marker fa-fw w3-margin-right w3-text-theme"></i> <?php echo $_SESSION['location'];?></p>
+         <p><i class="fa fa-phone fa-fw w3-margin-right w3-text-theme"></i> <?php echo $_SESSION['cafephone'];?></p>
         </div>
       </div>
       <br>
       
       <!-- Accordion -->
       <div class="w3-card w3-round">
-        <div class="w3-white">
+        <!-- <div class="w3-white">
           <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
           <div id="Demo1" class="w3-hide w3-container">
             <p>Some text..</p>
@@ -73,8 +90,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
           <div id="Demo3" class="w3-hide w3-container">
          <div class="w3-row-padding">
-         <br>
-           <div class="w3-half">
+         <br> -->
+           <!-- <div class="w3-half">
              <img src="/w3images/lights.jpg" style="width:100%" class="w3-margin-bottom">
            </div>
            <div class="w3-half">
@@ -91,10 +108,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
            </div>
            <div class="w3-half">
              <img src="/w3images/snow.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-         </div>
+           </div> -->
+         <!-- </div>
           </div>
-        </div>      
+        </div>       -->
       </div>
       <br>
 
@@ -112,9 +129,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                 <img src="cafe.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
                 <h4><?php echo $_SESSION['cafename']?></h4><br>
                 <hr class="w3-clear">
-                <p>whats this</p>
-                <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
-                <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
+                <div id="main-container" class="container">
+                    <table id="bookingTable" class="table table-striped" border="1">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Customer ID</th>
+                                <th>Seat No</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                    </table>   
+                </div>
+                <label id="error" class="text-danger"></label>
             </div>
           </div>
         </div>
@@ -126,7 +155,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
     
     <!-- Right Column -->
-    <div class="w3-col m2">
+    <!-- <div class="w3-col m2">
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
           <p>Upcoming Bookings:</p>
@@ -142,10 +171,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       
       <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
         <p><i class="fa fa-bug w3-xxlarge"></i></p>
-      </div>
+      </div> -->
       
     <!-- End Right Column -->
-    </div>
+    <!-- </div> -->
     
   <!-- End Grid -->
   </div>
@@ -186,6 +215,105 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+// Helper function to display error message
+function showError(message) {
+    // Hide the table and button in the event of error
+    $('#bookingTable').hide();
+
+    // Display an error under the main container
+    $('#error').text(message);
+    $('#error').show();
+}
+
+// anonymous async function 
+// - using await requires the function that calls it to be async
+$(async() => {           
+    // Change serviceURL to your own
+    var cafeid = <?php echo $_GET["cafeid"] ?> ;
+    var serviceURL = "http://127.0.0.1:5000/booking/cafe/" + "/" + cafeid;
+    try {
+        const response =
+          await fetch(
+            serviceURL, { method: 'GET' }
+        );
+        const data = await response.json();
+        if (response.ok) {
+            console.log(data);
+        }
+        var bookings = data.bookings; //the arr is in data.books of the JSON data
+        console.log(bookings);
+        // array or array.length are false
+        if (!bookings || !bookings.length) {
+            showError('No bookings made. :(')
+        } else {
+            // for loop to setup all table rows with obtained book data
+            var rows = "";
+            var bookTime = "";
+            for (const booking of bookings) {
+                if(booking.block == 1) {
+                    bookTime = "0800-0900";
+                } 
+                if(booking.block == 2) {
+                    bookTime = "0900-1000";
+                }
+                if(booking.block == 3) {
+                    bookTime = "1000-1100";
+                }
+                if(booking.block == 4) {
+                    bookTime = "1100-1200";
+                }
+                if(booking.block == 5) {
+                    bookTime = "1200-1300";
+                }
+                if(booking.block == 6) {
+                    bookTime = "1300-1400";
+                }
+                if(booking.block == 7) {
+                    bookTime = "1400-1500";
+                }
+                if(booking.block == 8) {
+                    bookTime = "1500-1600";
+                }
+                if(booking.block == 9) {
+                    bookTime = "1600-1700";
+                }
+                if(booking.block == 10) {
+                    bookTime = "1700-1800";
+                }
+                if(booking.block == 11) {
+                    bookTime = "1800-1900";
+                }
+                if(booking.block == 12) {
+                    bookTime = "1900-2000";
+                }
+                if(booking.block == 13) {
+                    bookTime = "2000-2100";
+                }
+                if(booking.block == 14) {
+                    bookTime = "2100-2200";
+                }
+                if(booking.block == 15) {
+                    bookTime = "2200-2300";
+                }
+                eachRow =
+                    "<td>" + booking.ID + "</td>" +
+                    "<td>" + booking.userID + "</td>" +
+                    "<td>" + booking.seat_no + "</td>" +
+                    "<td>" + booking.date+ "</td>" +
+                    "<td>" + bookTime + "</td>" +
+                    "<td>" + booking.status+ "</td>"; 
+                rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+            }
+            // add all the rows to the table
+            $('#bookingTable').append(rows);
+          }
+    } catch (error) {
+        // Errors when calling the service; such as network error, 
+        // service offline, etc
+        showError('There is a problem retrieving bookings data, please try again later.<br />'+error);
+    } // error
+});
 </script>
 
 </body>
