@@ -124,7 +124,7 @@
                                     <div class="w3-half">
                                       <label>Price Range</label>
                                       <!-- THIS IS FOR SLIDER-->
-                                      <div class="slidecontainer">
+                                      <div class="slidecontainer" style="padding-top:10px">
                                         <input type="range" min="1" max="5" value="3" name="price" id="rangeInput" onchange="updateTextInput(this.value);">
                                         <input type="text" id="textInput" value="3" onchange="updateRangeInput(this.value);">
                                         <script>function updateTextInput(val) {
