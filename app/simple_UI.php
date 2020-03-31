@@ -123,8 +123,21 @@
                                   <div class="w3-row-padding" style="margin:0 -16px;">
                                     <div class="w3-half">
                                       <label>Price Range</label>
-                                      <input class="w3-input w3-border" type="text" placeholder="Price Range" id="price">
+                                      <!-- THIS IS FOR SLIDER-->
+                                      <div class="slidecontainer">
+                                        <input type="range" min="1" max="5" value="3" name="price" id="rangeInput" onchange="updateTextInput(this.value);">
+                                        <input type="text" id="textInput" value="3" onchange="updateRangeInput(this.value);">
+                                        <script>function updateTextInput(val) {
+                                                  document.getElementById('textInput').value=val; 
+                                                }
+                                                function updateRangeInput(val) {
+                                                  document.getElementById('rangeInput').value=val; 
+                                                }
+                                        </script>
+                                      </div>
+                                      <!-- END OF SLIDER-->
                                     </div>
+
                                     <div class="w3-half">
                                       <label>Location</label>
                                       <div class="w3-input">
