@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Get Me There</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="floating-panel">
+    <b>Mode of Travel: </b>
+    <select id="mode">
+      <option value="DRIVING">Driving</option>
+      <option value="WALKING">Walking</option>
+      <option value="TRANSIT" selected>Public Transport</option>
+    </select>
+    </div>
+    
+    <div id="map"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script>
+        start_point = {};
+        end_point = {};
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                vars[key] = value;
+            });
+            return vars;
+        }
+        geocode();
+
+        function geocode() {
+            var starting_place = getUrlVars()["key"]+"Singapore";
+            axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+            params:{
+            address:starting_place,
+            key:'AIzaSyB4ugLld1u0TSJ0TADMXqEA7M7CLzWciHY'
+            }
+            })
+            .then(function(response){
+                console.log(response);
+                //get just the lat and lng
+                end_point.lat = response.data.results[0].geometry.location.lat;
+                end_point.lng = response.data.results[0].geometry.location.lng;
+                
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
+        console.log(end_point);
+        
+        
+        // get current location
+        x = navigator.geolocation;
+        x.getCurrentPosition(success, failure);
+        function success(position) {
+            start_point.lat = position.coords.latitude;
+            start_point.lng = position.coords.longitude;
+
+        }
+        function failure(){}
+
+        console.log(start_point);
+
+
+      function initMap() {
+        var directionsRenderer = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: {lat: 1.296568, lng: 103.852119}
+        });
+        directionsRenderer.setMap(map);
+
+        calculateAndDisplayRoute(directionsService, directionsRenderer);
+        document.getElementById('mode').addEventListener('change', function() {
+          calculateAndDisplayRoute(directionsService, directionsRenderer);
+        });
+      }
+      function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        var selectedMode = document.getElementById('mode').value;
+        directionsService.route({
+          origin: start_point,  // SMU.
+          destination: end_point,  // Potong Pasir.
+          // Note that Javascript allows us to access the constant
+          // using square brackets and a string value as its
+          // "property."
+          travelMode: google.maps.TravelMode[selectedMode]
+        }, function(response, status) {
+          if (status == 'OK') {
+            directionsRenderer.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4ugLld1u0TSJ0TADMXqEA7M7CLzWciHY&callback=initMap">
+    </script>
+  </body>
+</html>

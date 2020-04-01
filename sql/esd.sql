@@ -104,6 +104,21 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- --------------------------------------------------------
 
+
+--
+-- Table structure for table `correlation_id`
+--
+
+DROP TABLE IF EXISTS `correlation_id`;
+CREATE TABLE IF NOT EXISTS `correlation_id` (
+  `cor_id` varchar(255) NOT NULL,
+  `booking_id` int(64) NOT NULL,
+  PRIMARY KEY (`cor_id`),
+  FOREIGN KEY (`booking_id`) REFERENCES booking(ID)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
 --
 -- Constraints for dumped tables
 --
