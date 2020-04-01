@@ -2,6 +2,13 @@
   if(!session_id()) {
     session_start();
   }
+  if(isset($_GET["fname"])) {
+    $firstName = $_GET["fname"];
+  } 
+  if(isset($_SESSION['userData']['first_name'])) {
+    $firstName = $_SESSION['userData']['first_name'];
+  }
+  
   $cafes_locations = [];
   $dsn = "mysql:host=localhost;dbname=esd";
   $pdo = new PDO($dsn, "root", "root");
@@ -104,11 +111,11 @@
 
           <ul>
                             <li><a class="active" href="simple_UI.php">Home</a></li>
-                            <li><a href="booking_page.php">Check Booking</a></li>
+                            <li><a href="booking_page.php">View Bookings</a></li>
                             <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
                           </ul>
                     
-                            <h1 style="text-align:center; font-family: Times New Roman, Times, serif; font-size:50px; font-style:italic">Hello, <?php echo $_SESSION['userData']['first_name']; ?> !</h1>
+                            <h1 style="text-align:center; font-family: Times New Roman, Times, serif; font-size:50px; font-style:italic">Hello, <?php echo $firstName; ?> !</h1>
                           
 
                             <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px">
@@ -183,6 +190,7 @@
                 // - using await requires the function that calls it to be async
                 $(async() => {           
                     // Change serviceURL to your own
+                    console.log(price)
                     var serviceURL = "http://127.0.0.1:5000/cafes";
                     try {
                         const response =
@@ -234,53 +242,106 @@
                     var price = $('#price').val()
                     var i;
                     var rows = "";
-                    for(i=1; i<=price; i++) {
-                      var location = $('#location').val()
-                      var serviceURL = "http://127.0.0.1:5000/cafes"+ "/" + i + "/" + location;
+                    var location = $('#location').val()
+                    console.log(price)
+                    console.log(location)
+                    if(!location || !location.length) {
+                      for(i=1; i<=price; i++) {
+                        var serviceURL = "http://127.0.0.1:5000/cafes"+ "/" + i;
 
-                      try {
-                          const response =
-                            await fetch(
-                              serviceURL, { method: 'GET' }
-                            );
-                          const data = await response.json();
-                          if (response.ok) {
-                              console.log(data);
-                          }
-                          var cafes = data.cafes; //the arr is in data.books of the JSON data
-                          console.log(cafes);
-                          // array or array.length are false
-                          if (!cafes || !cafes.length) {
-                              // showError('No cafes found. Please try again.')
-                          } else {
-                              // for loop to setup all table rows with obtained book data
-                              for (const cafe of cafes) {
+                        try {
+                            const response =
+                              await fetch(
+                                serviceURL, { method: 'GET' }
+                              );
+                            const data = await response.json();
+                            if (response.ok) {
+                                console.log(data);
+                            }
+                            var cafes = data.cafes; //the arr is in data.books of the JSON data
+                            console.log(cafes);
+                            // array or array.length are false
+                            if (!cafes || !cafes.length) {
+                                // showError('No cafes found. Please try again.')
+                            } else {
+                                // for loop to setup all table rows with obtained book data
+                                for (const cafe of cafes) {
 
-                                eachRow =
-                                  "<div class='w3-third w3-margin-bottom'>" +
-                                  "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
-                                  "<div class='w3-container w3-white'>"+
-                                  "<h3>" + cafe.name + "</h3>" +
-                                  "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
-                                  "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
-                                  "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
-                                  "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
-                                  "<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.ID + "'>View Reviews</a>" +
-                                  "</div>"+
-                                  "</div>"; 
-                                rows += eachRow ;
-                              }
-                          }
-                          
-                      } catch (error) {
-                          // Errors when calling the service; such as network error, 
-                          // service offline, etc
-                          showError('There is a problem retrieving cafes data, please try again later.<br />'+error);
-                      } // error
-                      // add all the rows to the table
-                      $('#cafeTable').show();
-                      $('#cafeTable').empty();
-                      $('#cafeTable').append(rows);
+                                  eachRow =
+                                    "<div class='w3-third w3-margin-bottom'>" +
+                                    "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
+                                    "<div class='w3-container w3-white'>"+
+                                    "<h3>" + cafe.name + "</h3>" +
+                                    "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
+                                    "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
+                                    "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
+                                    "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
+                                    "<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.ID + "'>View Reviews</a>" +
+                                    "</div>"+
+                                    "</div>"; 
+                                  rows += eachRow ;
+                                }
+                            }
+                            
+                        } catch (error) {
+                            // Errors when calling the service; such as network error, 
+                            // service offline, etc
+                            showError('There is a problem retrieving cafes data, please try again later.<br />'+error);
+                        } // error
+                        // add all the rows to the table
+                        $('#cafeTable').show();
+                        $('#cafeTable').empty();
+                        $('#cafeTable').append(rows);
+                      }
+                    }
+                    else {
+                      for(i=1; i<=price; i++) {
+                        var serviceURL = "http://127.0.0.1:5000/cafes"+ "/" + i + "/" + location;
+
+                        try {
+                            const response =
+                              await fetch(
+                                serviceURL, { method: 'GET' }
+                              );
+                            const data = await response.json();
+                            if (response.ok) {
+                                console.log(data);
+                            }
+                            var cafes = data.cafes; //the arr is in data.books of the JSON data
+                            console.log(cafes);
+                            // array or array.length are false
+                            if (!cafes || !cafes.length) {
+                                // showError('No cafes found. Please try again.')
+                            } else {
+                                // for loop to setup all table rows with obtained book data
+                                for (const cafe of cafes) {
+
+                                  eachRow =
+                                    "<div class='w3-third w3-margin-bottom'>" +
+                                    "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
+                                    "<div class='w3-container w3-white'>"+
+                                    "<h3>" + cafe.name + "</h3>" +
+                                    "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
+                                    "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
+                                    "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
+                                    "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
+                                    "<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.ID + "'>View Reviews</a>" +
+                                    "</div>"+
+                                    "</div>"; 
+                                  rows += eachRow ;
+                                }
+                            }
+                            
+                        } catch (error) {
+                            // Errors when calling the service; such as network error, 
+                            // service offline, etc
+                            showError('There is a problem retrieving cafes data, please try again later.<br />'+error);
+                        } // error
+                        // add all the rows to the table
+                        $('#cafeTable').show();
+                        $('#cafeTable').empty();
+                        $('#cafeTable').append(rows);
+                      }
                     }
                     // if(!rows.length) {
                     //   showError('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+' No cafes found. Please try again.');

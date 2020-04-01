@@ -12,7 +12,7 @@ if(isset($_GET['seats'])){
 if(isset($_POST['submit'])){
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
+    $mysqli = new mysqli('localhost', 'root', '', 'bookingcalendar');
     $stmt = $mysqli->prepare("INSERT INTO bookings (name, email, date) VALUES (?,?,?)");
     $stmt->bind_param('sss', $name, $email, $date);
     $stmt->execute();
@@ -23,7 +23,7 @@ if(isset($_POST['submit'])){
 
 // Retrieves the cafeID-------------------------DO NOT TOUCH-------------------------------------
 $dsn = "mysql:host=localhost;dbname=esd";
-$pdo = new PDO($dsn, "root", "root");
+$pdo = new PDO($dsn, "root", "");
 $sql = "select ID from cafes where name=:name";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':name', $cafe, PDO::PARAM_STR);
@@ -41,12 +41,11 @@ $seat_no = unserialize($seats)[0];
 
 //retrieve the block from booking----------------with CafeID and SeatID---------------------
 $dsn = "mysql:host=localhost;dbname=esd";
-$pdo = new PDO($dsn, "root", "root");
-$sql = "select block from booking where cafeID=:cafeID and seat_no=:seat_no and date=:date";
+$pdo = new PDO($dsn, "root", "");
+$sql = "select block from booking where cafeID=:cafeID and seat_no=:seat_no";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':cafeID', $cafeID, PDO::PARAM_STR);
 $stmt->bindParam(':seat_no', $seat_no, PDO::PARAM_STR);
-$stmt->bindParam(':date', $date, PDO::PARAM_STR);
 $stmt->execute();
 $timings = [];
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -82,6 +81,7 @@ $pdo = null;
 <form action="../payment_service.php" method="POST">
 <?php
   // echo "<input type='hidden' name='userID' value=''>";
+  echo "<input type='hidden' name='cafe' value='$cafe'>";
   echo "<input type='hidden' name='cafeID' value='$id'>";
   echo "<input type='hidden' name='seat_no' value='$seat_no'>";
   echo "<input type='hidden' name='date' value='$date'>";
