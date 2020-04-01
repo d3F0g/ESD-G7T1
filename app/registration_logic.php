@@ -39,5 +39,5 @@
         }
 
     
-    header("Location: simple_UI.php");
+    header("Location: simple_UI.php?fname=$first_name");
 ?>

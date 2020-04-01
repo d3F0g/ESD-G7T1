@@ -5,11 +5,41 @@ session_start();
 <html>
  
 <head>
+    <style>
+        #responsive-image {
+            width: 100%;
+            height: auto; 
+        } 
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        li {
+          float: left;
+        }
+        
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        li a:hover {
+          background-color: #111;
+        }
+    </style>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
- 
-    <title>Past Bookings</title>
+    
+    <title>View Bookings</title>
  
     <link rel="stylesheet" href="">
     <!--[if lt IE 9]>
@@ -42,8 +72,13 @@ session_start();
 </head>
 
 <body>
+    <ul>
+    <li><a class="active" href="simple_UI.php">Home</a></li>
+    <li><a href="booking_page.php">View Bookings</a></li>
+    <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
+    </ul>
     <div id="main-container" class="container">
-        <h1 class="display-4">Past Bookings</h1>
+        <h1 class="display-4">View Bookings</h1>
         <table id="bookingTable" class='table table-striped' border='1'>
             <thead class='thead-dark'>
                 <tr>
