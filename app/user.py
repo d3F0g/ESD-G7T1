@@ -35,18 +35,18 @@ class User(db.Model):
         return {"ID": self.ID, "email": self.email, "password": self.password, "first_name": self.first_name,
         "last_name": self.last_name, "phone": self.phone, "social_media": self.social_media}
 
-# HTTP GET function to retrieve the userID from the database
-@app.route("/user/<int:user_id>")
-def find_userid(user_id):
-    users = User.query.filter_by(ID=user_id)
-    if users:
-        return jsonify({"users": [user.json() for user in User.query.filter_by( ID=user_id)]})
-    return jsonify({"message": "User not found."}), 404
+# # HTTP GET function to retrieve the userID from the database
+# @app.route("/user/<int:user_id>")
+# def find_userid(user_id):
+#     users = User.query.filter_by(ID=user_id)
+#     if users:
+#         return jsonify({"users": [user.json() for user in User.query.filter_by( ID=user_id)]})
+#     return jsonify({"message": "User not found."}), 404
 
 # HTTP GET function to retrieve the userID from the database
 @app.route("/user/get/<int:user_id>")
 def find_userid(user_id):
-    users = User.query.filter_by(ID=user_id)
+    users = User.query.filter_by(ID=user_id).first()
     if users:
         return jsonify({"users": [user.json() for user in User.query.filter_by( ID=user_id)]})
     return jsonify({"message": "Booking not found."}), 404

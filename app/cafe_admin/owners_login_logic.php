@@ -6,7 +6,7 @@ $pass = $_POST['loginPassword'];
 //Add registration details
 $servername = "localhost";
 $username = "root";
-$password = "root";
+$password = "";
 $dbname = "esd";
 
 try {
@@ -34,7 +34,7 @@ try {
         $_SESSION['location'] = $location;
         $_SESSION['cafeID'] = $cafeID;
         
-        header("Location: ../cafe_admin/landing.php");
+        header("Location: ../cafe_admin/landing.php?cafeid=$cafeID");
         exit();
     } else {
         $error_msg = 'Wrong Password!';

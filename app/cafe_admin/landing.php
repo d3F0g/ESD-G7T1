@@ -2,6 +2,7 @@
 
 <?php
     $cafeID = $_GET["cafeid"];
+    session_start();
 ?>
 
 <html>
@@ -69,7 +70,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <h4 class="w3-center">Café Profile</h4>
          <p class="w3-center"><img src="cafe.jpg" class="w3-circle" style="height:106px;width:145px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php session_start(); echo $_SESSION['cafename'];?> </p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php echo $_SESSION['cafename'];?> </p>
          <p><i class="fa fa-map-marker fa-fw w3-margin-right w3-text-theme"></i> <?php echo $_SESSION['location'];?></p>
          <p><i class="fa fa-phone fa-fw w3-margin-right w3-text-theme"></i> <?php echo $_SESSION['cafephone'];?></p>
         </div>
@@ -139,6 +140,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Status</th>
+                                <th>View Customer Info</th>
                             </tr>
                         </thead>
                     </table>   
@@ -231,7 +233,7 @@ function showError(message) {
 $(async() => {           
     // Change serviceURL to your own
     var cafeid = <?php echo $_GET["cafeid"] ?> ;
-    var serviceURL = "http://127.0.0.1:5000/booking/cafe/" + "/" + cafeid;
+    var serviceURL = "http://127.0.0.1:5000/booking/cafe" + "/" + cafeid;
     try {
         const response =
           await fetch(
@@ -302,7 +304,8 @@ $(async() => {
                     "<td>" + booking.seat_no + "</td>" +
                     "<td>" + booking.date+ "</td>" +
                     "<td>" + bookTime + "</td>" +
-                    "<td>" + booking.status+ "</td>"; 
+                    "<td>" + booking.status+ "</td>" + 
+                    "<td>" + "<a href = '../viewuserinfo.php?userid=" + booking.userID + "'>User Info</a></td>";
                 rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
             }
             // add all the rows to the table
