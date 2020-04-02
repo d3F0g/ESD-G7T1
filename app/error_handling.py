@@ -1,15 +1,30 @@
-#!/usr/bin/env python3
-# The above shebang (#!) operator tells Unix-like environments
-# to run this file as a python3 script
-
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from sqlalchemy import desc
 import json
 import sys
 import os
-
-# Communication patterns:
-# Use a message-broker with 'direct' exchange to enable interaction
 import pika
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esd'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+ 
+db = SQLAlchemy(app)
+CORS(app)
 
+class ErrorHandler(db.Model):
+    __tablename__ = 'error_handling'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text, nullable=False)
+
+    def __init__(self, ID, body):
+        self.ID = ID
+        self.body = body
+
+    def json(self):
+        return {"ID": self.ID, "body": self.body}
 
 def receiveBookingError():
     hostname = "localhost" # default broker hostname
@@ -37,9 +52,20 @@ def callback(channel, method, properties, body): # required signature for the ca
     print() # print a new line feed
 
 def processError(error):
-    print("Processing an error:")
-    print(error)
+    print("Recording an error log:")
+    retrieved = ErrorHandler.query.order_by(desc(ErrorHandler.ID)).first()
+    if retrieved:
+        retrieved_id = retrieved.ID + 1
+    else:
+        retrieved_id = 1
 
+    monitor = ErrorHandler(retrieved_id, str(error))
+
+    db.session.add(monitor)
+    db.session.commit()
+
+    print("Error log successfully added into database")
+    return "Success"
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
     print("This is " + os.path.basename(__file__) + ": awaiting for error...")
