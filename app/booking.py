@@ -50,51 +50,6 @@ class Booking(db.Model):
         return {"ID": self.ID, "userID": self.userID, "cafeID": self.cafeID, "seat_no": self.seat_no,
         "block": self.block, "date": self.date, "status": self.status}
 
-# AMQP messaging function for a successful booking
-def send_successful_booking(booking):
-    hostname = "localhost"
-    port = 5672
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
-    channel = connection.channel()
-
-    # set up the exchange if the exchange doesn't exist
-    exchangename="booking_topic"
-    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
-
-    # prepare the message body content
-    message = json.dumps(booking.json(), default=str) # convert a JSON object to a string
-
-    # inform monitoring
-    channel.basic_publish(exchange=exchangename, routing_key="booking.info", body=message)
-
-    connection.close()
-
-# AMQP messaging function for a unsuccessful booking
-def send_error_booking(booking):
-    hostname = "localhost"
-    port = 5672
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
-    channel = connection.channel()
-
-    # set up the exchange if the exchange doesn't exist
-    exchangename="booking_topic"
-    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
-
-    # prepare the message body content
-    message = json.dumps(booking.json(), default=str) # convert a JSON object to a string
-
-    # inform monitoring
-    channel.basic_publish(exchange=exchangename, routing_key="booking.info", body=message)
-
-    # send the error message over to error handler too
-    channel.queue_declare(queue='errorhandler', durable=True) # make sure the queue used by the error handler exist and durable
-    channel.queue_bind(exchange=exchangename, queue='errorhandler', routing_key='*.error') # make sure the queue is bound to the exchange
-    channel.basic_publish(exchange=exchangename, routing_key="booking.error", body=message,
-        properties=pika.BasicProperties(delivery_mode = 2) # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange)
-    )
-    print("Successful sending of booking to error handler.")
-    connection.close()
-
 # HTTP GET_ALL function to retrieve all bookings
 @app.route("/booking")
 def get_all():
@@ -106,48 +61,6 @@ def find_booking(booking_id):
     booking = Booking.query.filter_by(ID=booking_id).first()
     if booking:
         return jsonify(booking.json())
-    return jsonify({"message": "Booking not found."}), 404
-
-# HTTP GET function to retrieve the latest booking ID from the database
-@app.route("/booking/get_id")
-def find_latestID():
-    booking = Booking.query.order_by(desc(Booking.ID)).first()
-    if booking:
-        return str(booking.ID + 1)
-    else:
-        return str(1)
-
-# HTTP GET function to retrieve the userID from the database
-@app.route("/booking/user/<int:user_id>")
-def find_userid(user_id):
-    bookings = Booking.query.filter_by(userID=user_id)
-    if bookings:
-        return jsonify({"bookings": [booking.json() for booking in Booking.query.filter_by( userID=user_id)]})
-    return jsonify({"message": "Booking not found."}), 404
-
-# HTTP GET function to retrieve the cafeID from the database
-@app.route("/booking/cafe/<int:cafe_id>")
-def find_cafeid(cafe_id):
-    bookings = Booking.query.filter_by(cafeID=cafe_id)
-    if bookings:
-        return jsonify({"bookings": [booking.json() for booking in Booking.query.filter_by( cafeID=cafe_id)]})
-    return jsonify({"message": "Booking not found."}), 404
-
-# HTTP POST function to create a new booking
-@app.route("/booking/<int:booking_id>", methods=['POST'])
-def create_booking(booking_id):
-    data = request.get_json()
-    booking = Booking(booking_id, **data)
-    try:
-        db.session.add(booking)
-        db.session.commit()
-        print("Test booking created: " + json.dumps(booking.json(), default=str))
-        send_successful_booking(booking)
-    except:
-        print("An error occurred while creating the booking")
-        send_error_booking(booking)
-    
-    return jsonify(booking.json()), 201
 
 # HTTP PUT function to update a booking when booking is cancelled
 @app.route("/booking/update/<int:booking_id>", methods=["PUT"])
@@ -160,8 +73,47 @@ def update_booking(booking_id):
     
     return jsonify({"message": "Booking not found."}), 404
 
-# @app.route("/booking/update/<int:booking_id>", methods=['POST'])
-# def update_booking(booking_id):
+# HTTP GET function to retrieve the cafeID from the database
+@app.route("/booking/cafe/<int:cafe_id>")
+def find_cafeid(cafe_id):
+    bookings = Booking.query.filter_by(cafeID=cafe_id)
+    if bookings:
+        return jsonify({"bookings": [booking.json() for booking in Booking.query.filter_by( cafeID=cafe_id)]})
+    return jsonify({"message": "Booking not found."}), 404
+
+# HTTP GET function to retrieve the bookings belonging to a user from the database
+@app.route("/booking/user/<int:user_id>")
+def find_userid(user_id):
+    bookings = Booking.query.filter_by(userID=user_id)
+    if bookings:
+        return jsonify({"bookings": [booking.json() for booking in Booking.query.filter_by( userID=user_id)]})
+    return jsonify({"message": "Booking not found."}), 404
+
+# HTTP GET function to retrieve the latest booking ID from the database
+@app.route("/booking/get_id")
+def find_latestID():
+    booking = Booking.query.order_by(desc(Booking.ID)).first()
+    if booking:
+        return str(booking.ID + 1)
+    else:
+        return str(1)
+
+# HTTP POST function that listens for a new booking from Payment
+@app.route("/booking/<int:booking_id>", methods=['POST'])
+def send_booking(booking_id):
+    print()
+    print("Booking received from Payment")
+    data = request.get_json()
+    data["ID"] = booking_id
+
+    hostname = "localhost"
+    port = 5672
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=hostname, port=port))
+    channel = connection.channel()
+
+    # set up the exchange if the exchange doesn't exist
+    exchangename="booking_topic"
+    channel.exchange_declare(exchange=exchangename, exchange_type='topic')
 
     # prepare the message body content
     message = json.dumps(data, default=str) # convert a JSON object to a string
@@ -185,14 +137,6 @@ def update_booking(booking_id):
     print("Booking sent to Cafe Notification for booking creation into database")
     connection.close()
     return "Booking creation confirmed"
-#     try:
-#         db.session.query(booking).update({'status':'Cancelled'})
-#         db.session.commit()
-#         print("Test booking updated: " + json.dumps(booking.json(), default=str))
-#     except:
-#         print("An error occurred while updating the booking")
     
-#     return jsonify(booking.json()), 201
-
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
