@@ -108,8 +108,8 @@
             <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
             <?php
             echo "<a href='landing.php?cafeid=" . $cafeID . "'class='w3-bar-item w3-button w3-padding-large w3-theme-d4'><i class='fa fa-home w3-margin-right'></i></a>";
+            echo "<a href='view_reviews.php?cafeid=" . $cafeID . "'class='w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white' title='View Reviews'>View Reviews</a>";
             ?>
-            <a href="view_reviews.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="View Reviews">View Reviews</a>
             <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
             <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
             <div class="w3-dropdown-hover w3-hide-small">
