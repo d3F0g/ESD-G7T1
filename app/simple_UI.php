@@ -271,14 +271,16 @@
 
                                   eachRow =
                                     "<div class='w3-third w3-margin-bottom'>" +
-                                    "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
+                                    // "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
+                                    "<img src='cafe_layouts/" + cafe.name + "/" + cafe.name + ".jpg' alt='Norway' style='width:100%'>"+
                                     "<div class='w3-container w3-white'>"+
                                     "<h3>" + cafe.name + "</h3>" +
                                     "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
                                     "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
                                     "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
-                                    "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
-                                    "<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.ID + "'>View Reviews</a>" +
+                                    "<p><a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
+                                    "&nbsp<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.cafeID + "'>View Reviews</a></p>" +
+                                    "<p><a id='locationBtn' class='btn btn-primary' target='_blank' href='directions.html?key="+cafe.name+"'>Get Here!</a></p>" +
                                     "</div>"+
                                     "</div>"; 
                                   rows += eachRow ;
@@ -326,8 +328,9 @@
                                     "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
                                     "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
                                     "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
-                                    "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
-                                    "<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.ID + "'>View Reviews</a>" +
+                                    "<p><a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
+                                    "&nbsp<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.cafeID + "'>View Reviews</a></p>" +
+                                    "<p><a id='locationBtn' class='btn btn-primary' target='_blank' href='directions.html?key="+cafe.name+"'>Get Here!</a></p>" +
                                     "</div>"+
                                     "</div>"; 
                                   rows += eachRow ;
@@ -345,9 +348,9 @@
                         $('#cafeTable').append(rows);
                       }
                     }
-                    // if(!rows.length) {
-                    //   showError('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+' No cafes found. Please try again.');
-                    // }
+                    if(!rows.length) {
+                      showError('\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+' No cafes found. Please try again.');
+                    }
                 });
             </script>
             
