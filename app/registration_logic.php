@@ -6,6 +6,10 @@
     $last_name = $_POST['lname'];
     $phone = $_POST['phone'];
     $social = NULL;
+    if (isset($_POST['facebook'])) {
+        $social = $_POST['facebook'];
+    } 
+    
 
     $servername = "localhost";
     $username = "root";
