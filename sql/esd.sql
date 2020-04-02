@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 26, 2020 at 10:14 AM
+-- Generation Time: Apr 02, 2020 at 08:07 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -58,9 +58,49 @@ CREATE TABLE IF NOT EXISTS `cafes` (
   `password` varchar(64) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `poc` varchar(100) NOT NULL,
-  `avg_review` double(3,2),
+  `avg_review` double(3,2) DEFAULT NULL,
   `price` int(1) NOT NULL,
   `location` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `correlation_id`
+--
+
+DROP TABLE IF EXISTS `correlation_id`;
+CREATE TABLE IF NOT EXISTS `correlation_id` (
+  `cor_id` varchar(255) NOT NULL,
+  `booking_id` int(64) NOT NULL,
+  PRIMARY KEY (`cor_id`),
+  KEY `booking_id` (`booking_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `error_handling`
+--
+
+DROP TABLE IF EXISTS `error_handling`;
+CREATE TABLE IF NOT EXISTS `error_handling` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `body` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `monitoring`
+--
+
+DROP TABLE IF EXISTS `monitoring`;
+CREATE TABLE IF NOT EXISTS `monitoring` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `body` text NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -102,23 +142,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
-
---
--- Table structure for table `correlation_id`
---
-
-DROP TABLE IF EXISTS `correlation_id`;
-CREATE TABLE IF NOT EXISTS `correlation_id` (
-  `cor_id` varchar(255) NOT NULL,
-  `booking_id` int(64) NOT NULL,
-  PRIMARY KEY (`cor_id`),
-  FOREIGN KEY (`booking_id`) REFERENCES booking(ID)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
 --
 -- Constraints for dumped tables
 --
@@ -129,6 +152,12 @@ CREATE TABLE IF NOT EXISTS `correlation_id` (
 ALTER TABLE `booking`
   ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`ID`),
   ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`cafeID`) REFERENCES `cafes` (`ID`);
+
+--
+-- Constraints for table `correlation_id`
+--
+ALTER TABLE `correlation_id`
+  ADD CONSTRAINT `correlation_id_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`ID`);
 
 --
 -- Constraints for table `reviews`
