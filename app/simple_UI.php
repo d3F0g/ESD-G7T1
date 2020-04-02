@@ -213,7 +213,8 @@
                             for (const cafe of cafes) {
                               eachRow =
                                 "<div class='w3-third w3-margin-bottom'>" +
-                                "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
+                                // "<img src='cafe_background.jpg' alt='Norway' style='width:100%'>"+
+                                "<img src='cafe_layouts/" + cafe.name + "/" + cafe.name + ".jpg' alt='Norway' style='width:100%'>"+
                                 "<div class='w3-container w3-white'>"+
                                 "<h3>" + cafe.name + "</h3>" +
                                 "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
