@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 02, 2020 at 08:07 AM
+-- Generation Time: Apr 02, 2020 at 10:13 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -67,15 +67,14 @@ CREATE TABLE IF NOT EXISTS `cafes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `correlation_id`
+-- Table structure for table `corrid`
 --
 
-DROP TABLE IF EXISTS `correlation_id`;
-CREATE TABLE IF NOT EXISTS `correlation_id` (
-  `cor_id` varchar(255) NOT NULL,
-  `booking_id` int(64) NOT NULL,
-  PRIMARY KEY (`cor_id`),
-  KEY `booking_id` (`booking_id`)
+DROP TABLE IF EXISTS `corrid`;
+CREATE TABLE IF NOT EXISTS `corrid` (
+  `corrid` varchar(100) NOT NULL,
+  `bookingID` int(11) NOT NULL,
+  PRIMARY KEY (`corrid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -152,12 +151,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 ALTER TABLE `booking`
   ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`ID`),
   ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`cafeID`) REFERENCES `cafes` (`ID`);
-
---
--- Constraints for table `correlation_id`
---
-ALTER TABLE `correlation_id`
-  ADD CONSTRAINT `correlation_id_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`ID`);
 
 --
 -- Constraints for table `reviews`
