@@ -50,6 +50,15 @@ def find_userid(user_id):
     if users:
         return jsonify({"users": [user.json() for user in User.query.filter_by( ID=user_id)]})
     return jsonify({"message": "Booking not found."}), 404
+    
+# HTTP GET function to retrieve the latest booking ID from the database
+@app.route("/user/get_id")
+def find_latestID():
+    user= User.query.order_by(desc(Booking.ID)).first()
+    if user:
+        return str(user.ID + 1)
+    else:
+        return str(1)
 
 # HTTP POST function to create a new user
 @app.route("/user/create/<int:user_id>", methods=['POST'])
