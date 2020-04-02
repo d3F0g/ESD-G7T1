@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="kookie.css">
+<link rel="stylesheet" type="text/css" href="kooks.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
 
@@ -16,7 +16,7 @@
     </head>
 
     <div class="w3-container w3-lobster">
-        <p class="w3-xxxlarge" align = "center">Kookie</p>
+        <p class="w3-xxxlarge" align = "center">Kooks</p>
     </div>
 
 <div class="exit exit--front fuselage">
