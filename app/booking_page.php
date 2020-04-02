@@ -74,7 +74,7 @@ session_start();
 <body>
     <ul>
     <li><a class="active" href="simple_UI.php">Home</a></li>
-    <li><a href="booking_page.php">View Bookings</a></li>
+    <li><a href="booking_page.php">Check Bookings</a></li>
     <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
     </ul>
     <div id="main-container" class="container">
