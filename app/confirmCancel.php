@@ -1,5 +1,16 @@
 <?php
 session_start();
+if(isset($_GET['bookingID'])) {
+    $bookingID = $_GET['bookingID'];
+}
+$bookingID = json_encode($bookingID);
+
+if(isset($_GET["fname"])) {
+    $firstName = $_GET["fname"];
+} 
+if(isset($_SESSION['userData']['first_name'])) {
+$firstName = $_SESSION['userData']['first_name'];
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,7 +50,7 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width">
     
-    <title>View Bookings</title>
+    <title>Cancel Current Booking</title>
  
     <link rel="stylesheet" href="">
     <!--[if lt IE 9]>
@@ -78,19 +89,10 @@ session_start();
     <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
     </ul>
     <div id="main-container" class="container">
-        <h1 class="display-4">View Bookings</h1>
-        <table id="bookingTable" class='table table-striped' border='1'>
-            <thead class='thead-dark'>
-                <tr>
-                    <th>BookingID</th>
-                    <th>CafeID</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-        </table>
+        <h1 class="display-4">Confirm Cancel?</h1>
+        <form id='updateBookingForm' >
+            <button type="submit" class="btn btn-primary">Yes</button>
+        </form>
     </div>
 
     <script>
@@ -106,46 +108,30 @@ session_start();
      
         // anonymous async function 
         // - using await requires the function that calls it to be async
-        $(async() => {           
+        $("#updateBookingForm").submit(async(event) => {    
+            event.preventDefault();       
             // Change serviceURL to your own
-            var serviceURL = "http://127.0.0.1:5000/booking/user/"+ <?php echo $_SESSION['userData']['userID']?>;
-     
+            var bookingID = <?php echo $bookingID; ?>;
+            var serviceURL = "http://127.0.0.1:5000/booking/update" + "/";
+            serviceURL += bookingID;
+            var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php";
             try {
+                console.log("Hello 1");
                 const response =
-                 await fetch(
-                   serviceURL, { method: 'GET' }
+                   await fetch(
+                    serviceURL, { method: 'PUT' }
                 );
-                const data = await response.json();
+                console.log("Hello 2");
+                // const data = await response.json();
+                console.log("Hello 3");
                 if (response.ok) {
-                    console.log(data);
+                    console.log("Hello 4");
+                    window.location.replace(homeURL);
+                    return false;
                 }
-                var bookings = data.bookings; //the arr is in data.books of the JSON data
-                console.log(bookings);
-
-                // array or array.length are false
-                if (!bookings || !bookings.length) {
-                    showError('Booking list empty or undefined.')
-                } else {
-                    // for loop to setup all table rows with obtained book data
-                    var rows = "";
-                    for (const booking of bookings) {
-
-                        eachRow =
-                            "<td>" + booking.ID + "</td>" +
-                            "<td>" + booking.cafeID + "</td>" +
-                            "<td>" + booking.date + "</td>" +
-                            "<td>" + booking.status + "</td>" +
-                            "<td>" + "<a id='bookBtn' class='btn btn-primary' href='user_review.php?bookingID=" + booking.ID + "&cafeID=" + booking.cafeID + "&userID=" + booking.userID + "'>Give Review!</a>" + "</td>" +
-                            "<td>" + "<a id='cancelBtn' class='btn btn-primary' href='confirmCancel.php?bookingID=" + booking.ID + "'>Cancel booking!</a>" + "</td>";
-                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
-
-                    }
-                    // add all the rows to the table
-                    $('#bookingTable').append(rows);
-                }
+                
             // }
-            }
-             catch (error) {
+            } catch (error) {
                 // Errors when calling the service; such as network error, 
                 // service offline, etc
                 showError('There is a problem retrieving booking data, please try again later.<br />'+error);

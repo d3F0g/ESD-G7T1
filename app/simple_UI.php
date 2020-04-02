@@ -192,6 +192,7 @@
                     // Change serviceURL to your own
                     console.log(price)
                     var serviceURL = "http://127.0.0.1:5000/cafes";
+                    console.log(serviceURL)
                     try {
                         const response =
                          await fetch(
@@ -220,7 +221,6 @@
                                 "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
                                 "<a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
                                 "<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.cafeID + "'>View Reviews</a>" +
-                                "<a id='locationBtn' class='btn btn-primary' target='_blank' href='directions.html?key="+cafe.name+"'>Get Here!</a>" +
                                 "</div>"+
                                 "</div>"; 
                               rows += eachRow ;
