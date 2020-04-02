@@ -16,8 +16,9 @@ if(isset($_POST['block'])){
     $block = $_POST['block'];
 }
 
-$date = json_encode($date);
+$seat = json_encode($seat);
 
+$date = json_encode($date);
 $bookTime = "";
 if($block == 1) {
     $bookTime = "0800-0900";
@@ -97,6 +98,7 @@ if($block == 15) {
             <p><b>Cafe Name:</b> <?php echo $_POST["cafe"]; ?></p>
             <p><b>Booking Date:</b> <?php echo $_POST["date"]; ?></p>
             <p><b>Booking Time:</b> <?php echo $bookTime; ?></p>
+            <p><b>Booking Fees:</b> $1.50 </p>
 
             <!-- Your PayPal Button here -->
 
@@ -161,13 +163,13 @@ if($block == 15) {
                     } 
                     var serviceURL = "http://127.0.0.1:5000/booking/";
                     serviceURL += foundBookingID;
-                    var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php?msg=Booking%20Confirmed!";
+                    var homeURL = "simple_UI.php?msg=Booking%20Confirmed!";
 
                     //Get form data 
                     var userID = <?php echo $_SESSION["userData"]["userID"]; ?>;
                     var cafeID = <?php echo $_POST["cafeID"]; ?>;
                     
-                    var seat_no = "5";
+                    var seat_no = <?php echo $seat; ?>;
                     var block = <?php echo $_POST["block"]; ?>;
                     var date = <?php echo $date; ?>;
                     // console.log(date)

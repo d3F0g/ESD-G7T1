@@ -192,6 +192,7 @@
                     // Change serviceURL to your own
                     console.log(price)
                     var serviceURL = "http://127.0.0.1:5000/cafes";
+                    console.log(serviceURL)
                     try {
                         const response =
                          await fetch(
