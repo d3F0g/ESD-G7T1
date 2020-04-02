@@ -163,7 +163,7 @@ if($block == 15) {
                     } 
                     var serviceURL = "http://127.0.0.1:5000/booking/";
                     serviceURL += foundBookingID;
-                    var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php?msg=Booking%20Confirmed!";
+                    var homeURL = "simple_UI.php?msg=Booking%20Confirmed!";
 
                     //Get form data 
                     var userID = <?php echo $_SESSION["userData"]["userID"]; ?>;
