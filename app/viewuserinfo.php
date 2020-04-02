@@ -120,7 +120,7 @@ $(async() => {
             console.log(users);
             // array or array.length are false
             if (!users || !users.length) {
-                //showError('Users list empty or undefined.')
+                showError('Users list empty or undefined.')
             } else {
                 var rows = ""
                 for(const user of users) {
@@ -138,7 +138,8 @@ $(async() => {
         } catch (error) {
             // Errors when calling the service; such as network error, 
             // service offline, etc
-            //showError('There is a problem retrieving cafes data, please try again later.<br />'+error);
+            
+            showError('There is a problem retrieving cafes data, please try again later.<br />'+error);
         } // error
     });
 </script>

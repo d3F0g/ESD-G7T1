@@ -7,9 +7,24 @@ import pika
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
- 
+import uuid
+
 db = SQLAlchemy(app)
 CORS(app)
+
+class CorrID(db.Model):
+    __tablename__ = 'corrid'
+
+    corrid = db.Column(db.String(100), primary_key=True)
+    bookingID = db.Column(   db.Integer, nullable=False)
+    
+    def __init__(self, corrid, bookingID):
+        self.corrid = corrid
+        self.bookingID = bookingID
+
+    
+    def json(self):
+        return {"corrid": self.corrid, "bookingID": self.bookingID}
 
 class Booking(db.Model):
     __tablename__ = 'booking'
@@ -103,6 +118,11 @@ def send_booking(booking_id):
     # prepare the message body content
     message = json.dumps(data, default=str) # convert a JSON object to a string
 
+    corrid = str(uuid.uuid4())
+    add = CorrID(corrid=corrid, bookingID=booking_id)
+    db.session.add(add)
+    db.session.commit()
+
     replyqueuename = "booking.reply"
     channel.queue_declare(queue=replyqueuename, durable=True)
     # prepare the channel and send a message to Cafe Notifcation
@@ -111,7 +131,7 @@ def send_booking(booking_id):
     channel.basic_publish(exchange=exchangename, routing_key="booking.creation", body=message,
         properties=pika.BasicProperties(delivery_mode = 2, # make message persistent within the matching queues until it is received by some receiver (the matching queues have to exist and be durable and bound to the exchange, which are ensured by the previous two api calls)
             reply_to=replyqueuename, # set the reply queue which will be used as the routing key for reply messages
-            # correlation_id=corrid # set the correlation id for easier matching of replies
+            correlation_id =corrid # set the correlation id for easier matching of replies
         )
     )
     print("Booking sent to Cafe Notification for booking creation into database")

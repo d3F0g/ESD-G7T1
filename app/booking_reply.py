@@ -1,6 +1,31 @@
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from sqlalchemy import desc
+import json
 import sys
 import os
 import pika
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esd'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+ 
+db = SQLAlchemy(app)
+CORS(app)
+
+class CorrID(db.Model):
+    __tablename__ = 'corrid'
+
+    bookingID = db.Column(db.Integer, primary_key=True)
+    corrid = db.Column(db.String(100), nullable=False)
+    
+    def __init__(self, bookingID, corrid):
+        self.corrid = corrid
+        self.bookingID = bookingID
+
+    
+    def json(self):
+        return {"corrid": self.corrid, "bookingID": self.bookingID}
 
 def receiveBooking():
     hostname = "localhost" # default broker hostname. Web management interface default at http://localhost:15672
@@ -26,7 +51,11 @@ def receiveBooking():
     channel.start_consuming()
 
 def reply_callback(channel, method, properties, body):
-    print("Reply received from Cafe Notification: ", str(body))
+    retrieved = CorrID.query.order_by(desc(CorrID.corrid)).first()
+    if retrieved:
+        print("Reply received from Cafe Notification: ", str(body))
+        print("Correlation: ", retrieved.corrid)
+    
     channel.basic_ack(delivery_tag=method.delivery_tag)
 
 if __name__ == '__main__':

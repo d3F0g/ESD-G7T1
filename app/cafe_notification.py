@@ -81,7 +81,7 @@ def callback(channel, method, properties, body): # required signature for the ca
             routing_key=properties.reply_to, # use the reply queue set in the request message as the routing key for reply messages
             body=replymessage, 
             properties=pika.BasicProperties(delivery_mode = 2, # make message persistent (stored to disk, not just memory) within the matching queues; default is 1 (only store in memory)
-                #correlation_id = properties.correlation_id, # use the correlation id set in the request message
+                correlation_id = properties.correlation_id, # use the correlation id set in the request message
             )
     )
     channel.basic_ack(delivery_tag=method.delivery_tag) # acknowledge to the broker that the processing of the request message is completed
