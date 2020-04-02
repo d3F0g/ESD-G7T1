@@ -305,7 +305,7 @@ $(async() => {
                     "<td>" + booking.date+ "</td>" +
                     "<td>" + bookTime + "</td>" +
                     "<td>" + booking.status+ "</td>" + 
-                    "<td>" + "<a href = '../viewuserinfo.php?userid=" + booking.userID + "'>User Info</a></td>";
+                    "<td>" + "<a href = 'viewuserinfo.php?userid=" + booking.userID + "&cafeid=" + cafeid + "'>User Info</a></td>";
                 rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
             }
             // add all the rows to the table
