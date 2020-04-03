@@ -23,6 +23,11 @@
   }
   $stmt = null;
   $pdo = null;
+
+  if(isset($_GET["msg"])) {
+    $msg = $_GET["msg"];
+  }
+  
 ?>
 <!DOCTYPE html>
 
@@ -115,14 +120,14 @@
                             <li style="float:right"><a class="active" href="facebook_login/logout.php">Logout</a></li>
                           </ul>
                     
-                            <h1 style="text-align:center; font-family: Times New Roman, Times, serif; font-size:50px; font-style:italic">Hello, <?php echo $firstName; ?> !</h1>
-                          
-
+                            <h1 style="text-align:center; font-family: Times New Roman, Times, serif; font-size:50px; font-style:italic">Hello, <?php echo $firstName;?> !</h1>
+                            <?php if(isset($msg)) { echo "<h1 style='text-align:center; font-family: Times New Roman, Times, serif; font-size:50px; font-style:italic'> " . $msg . "</h1>"; }?>
+                            
                             <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px">
-                            <img class="w3-image" src="white.jpg" alt="cafe" id="responsive-image" style="max-height:350px">
-
+                              <img class="w3-image" src="white.jpg" alt="cafe" id="responsive-image" style="max-height:350px">
                               
                               <div class="w3-display-middle" style="width:90%">
+                                
                                 <!-- Tabs -->
                                 <div id="Search" class="w3-container w3-white w3-padding-16 myLink">
                                 <form id = "searchCafeForm">
@@ -219,6 +224,7 @@
                                 "<h3>" + cafe.name + "</h3>" +
                                 "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
                                 "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
+                                "<p>" +"<i class='fa fa-money' aria-hidden='true'></i>"+"&nbsp"+ cafe.price + "</p>" +
                                 "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
                                 "<p><a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
                                 "&nbsp<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.cafeID + "'>View Reviews</a></p>" +
@@ -277,6 +283,7 @@
                                     "<h3>" + cafe.name + "</h3>" +
                                     "<h6>" +"<i class='fa fa-phone' aria-hidden='true'></i>"+"&nbsp"+ cafe.phone + "</h6>" +
                                     "<p>" +"<i class='fa fa-star' aria-hidden='true'></i>"+"&nbsp"+ cafe.avg_review + "</p>" +
+                                    "<p>" +"<i class='fa fa-money' aria-hidden='true'></i>"+"&nbsp"+ cafe.price + "</p>" +
                                     "<p>" +"<i class='fa fa-map-marker' aria-hidden='true'></i>"+"&nbsp"+ cafe.location + "</p>" +
                                     "<p><a id='bookBtn' class='btn btn-primary' href='bookingcalendar/index.php?cafename=" + cafe.name +  "'>Book now!</a>"+
                                     "&nbsp<a id='viewReviewBtn' class='btn btn-primary' href='viewreviews.php?cafeid=" + cafe.cafeID + "'>View Reviews</a></p>" +

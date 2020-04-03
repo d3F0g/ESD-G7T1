@@ -114,7 +114,7 @@ $firstName = $_SESSION['userData']['first_name'];
             var bookingID = <?php echo $bookingID; ?>;
             var serviceURL = "http://127.0.0.1:5000/booking/update" + "/";
             serviceURL += bookingID;
-            var homeURL = "simple_UI.php";
+            var homeURL = "simple_UI.php?msg=Booking%20Cancelled!";
             try {
                 console.log("Hello 1");
                 const response =

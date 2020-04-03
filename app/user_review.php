@@ -83,7 +83,7 @@
             showError('Cannot get Review ID'+error);
         } 
         var serviceURL = "http://127.0.0.1:5002/reviews/add/";
-        var homeURL = "simple_UI.php";
+        var homeURL = "simple_UI.php?msg=Review%20Added!";
         serviceURL += foundReviewID;
 
         //Get form data 
