@@ -43,6 +43,12 @@ class Cafe(db.Model):
 def get_all():
     return jsonify({"cafes": [cafe.json() for cafe in Cafe.query.all()]})
 
+# search by cafeID
+@app.route("/cafes/get/<int:ID>")
+def find_by_ID(ID):
+    cafe = Cafe.query.filter_by( ID=ID).first()
+    if cafe:
+        return jsonify(cafe.json())
 
 # search by price, location
 @app.route("/cafes/<int:price>/<string:location>")

@@ -157,11 +157,28 @@ else {
                     return parseInt(x, 10); 
                     });
                     for (const booking of bookings) {
+                        var cafeid = booking.cafeID;
+                        var getCafeURL = "http://127.0.0.1:5001/cafes/get/";
+                        getCafeURL += cafeid;
+                        try{
+                            const response =
+                                await fetch(
+                                getCafeURL, { method: 'GET' }
+                            );
+                            const data1 = await response.json();
+                            if (response.ok) {
+                                var foundCafeName = data1.name;
+                                console.log(foundCafeName);
+                            }
+
+                        } catch(error) {
+                            showError('There is a problem retrieving booking data, please try again later.<br />'+error);
+                        }
                         //bookings are now loaded onto the url of the page
                         if (result.includes(booking.ID)) {
                             eachRow =
                             "<td>" + booking.ID + "</td>" +
-                            "<td>" + booking.cafeID + "</td>" +
+                            "<td>" + foundCafeName + "</td>" +
                             "<td>" + booking.date + "</td>" +
                             "<td>" + booking.status + "</td>" +
                             "<td>" + "<a id='bookBtn' class='btn btn-primary' style='background-color:red; border-color:red' href='delete_review.php?bookingID=" + booking.ID + "'>Delete Review</a>" + "</td>" +
@@ -171,7 +188,7 @@ else {
                         else {
                             eachRow =
                             "<td>" + booking.ID + "</td>" +
-                            "<td>" + booking.cafeID + "</td>" +
+                            "<td>" + foundCafeName + "</td>" +
                             "<td>" + booking.date + "</td>" +
                             "<td>" + booking.status + "</td>" +
                             "<td>" + "<a id='bookBtn' class='btn btn-primary' href='user_review.php?bookingID=" + booking.ID + "&cafeID=" + booking.cafeID + "&userID=" + booking.userID + "'>Give Review!</a>" + "</td>" +
