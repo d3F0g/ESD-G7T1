@@ -180,9 +180,14 @@ else {
                             "<td>" + booking.ID + "</td>" +
                             "<td>" + foundCafeName + "</td>" +
                             "<td>" + booking.date + "</td>" +
-                            "<td>" + booking.status + "</td>" +
-                            "<td>" + "<a id='bookBtn' class='btn btn-primary' style='background-color:red; border-color:red' href='delete_review.php?bookingID=" + booking.ID + "'>Delete Review</a>" + "</td>" +
-                            "<td>" + "<a id='cancelBtn' class='btn btn-primary' href='confirmCancel.php?bookingID=" + booking.ID + "'>Cancel booking!</a>" + "</td>";
+                            "<td>" + booking.status + "</td>" ;
+                            
+                            if(booking.status != "Cancelled") {
+                                eachRow += "<td>" + "<a id='bookBtn' class='btn btn-primary' style='background-color:red; border-color:red' href='delete_review.php?bookingID=" + booking.ID + "'>Delete Review</a>" + "</td>" +
+                                "<td>" + "<a id='cancelBtn' class='btn btn-primary' href='confirmCancel.php?bookingID=" + booking.ID + "'>Cancel booking!</a>" + "</td>";
+                            } else {
+                                eachRow += "<td></td>" + "<td></td>";
+                            }
                             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                         }
                         else {
@@ -190,9 +195,14 @@ else {
                             "<td>" + booking.ID + "</td>" +
                             "<td>" + foundCafeName + "</td>" +
                             "<td>" + booking.date + "</td>" +
-                            "<td>" + booking.status + "</td>" +
-                            "<td>" + "<a id='bookBtn' class='btn btn-primary' href='user_review.php?bookingID=" + booking.ID + "&cafeID=" + booking.cafeID + "&userID=" + booking.userID + "'>Give Review!</a>" + "</td>" +
-                            "<td>" + "<a id='cancelBtn' class='btn btn-primary' href='confirmCancel.php?bookingID=" + booking.ID + "'>Cancel booking!</a>" + "</td>";
+                            "<td>" + booking.status + "</td>" ;
+
+                            if(booking.status != "Cancelled") {
+                                eachRow += "<td>" + "<a id='bookBtn' class='btn btn-primary' href='user_review.php?bookingID=" + booking.ID + "&cafeID=" + booking.cafeID + "&userID=" + booking.userID + "'>Give Review!</a>" + "</td>" +
+                                "<td>" + "<a id='cancelBtn' class='btn btn-primary' href='confirmCancel.php?bookingID=" + booking.ID + "'>Cancel booking!</a>" + "</td>";
+                            } else {
+                                eachRow += "<td></td>" + "<td></td>";
+                            }
                             rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
                         }
 
