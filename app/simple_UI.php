@@ -191,7 +191,7 @@
                 $(async() => {           
                     // Change serviceURL to your own
                     console.log(price)
-                    var serviceURL = "http://127.0.0.1:5000/cafes";
+                    var serviceURL = "http://127.0.0.1:5001/cafes";
                     console.log(serviceURL)
                     try {
                         const response =
@@ -249,7 +249,7 @@
                     console.log(location)
                     if(!location || !location.length) {
                       for(i=1; i<=price; i++) {
-                        var serviceURL = "http://127.0.0.1:5000/cafes"+ "/" + i;
+                        var serviceURL = "http://127.0.0.1:5001/cafes"+ "/" + i;
 
                         try {
                             const response =
@@ -300,7 +300,7 @@
                     }
                     else {
                       for(i=1; i<=price; i++) {
-                        var serviceURL = "http://127.0.0.1:5000/cafes"+ "/" + i + "/" + location;
+                        var serviceURL = "http://127.0.0.1:5001/cafes"+ "/" + i + "/" + location;
 
                         try {
                             const response =

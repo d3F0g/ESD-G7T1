@@ -299,13 +299,13 @@ $(async() => {
                     bookTime = "2200-2300";
                 }
                 eachRow =
-                    "<td>" + booking.ID + "</td>" +
-                    "<td>" + booking.userID + "</td>" +
-                    "<td>" + booking.seat_no + "</td>" +
-                    "<td>" + booking.date+ "</td>" +
-                    "<td>" + bookTime + "</td>" +
-                    "<td>" + booking.status+ "</td>" + 
-                    "<td>" + "<a href = 'viewuserinfo.php?userid=" + booking.userID + "&cafeid=" + cafeid + "'>User Info</a></td>";
+                    "<td style='text-align:center'>" + booking.ID + "</td>" +
+                    "<td style='text-align:center'>" + booking.userID + "</td>" +
+                    "<td style='text-align:center'>" + booking.seat_no + "</td>" +
+                    "<td style='text-align:center'>" + booking.date+ "</td>" +
+                    "<td style='text-align:center'>" + bookTime + "</td>" +
+                    "<td style='text-align:center'>" + booking.status+ "</td>" + 
+                    "<td style='text-align:center'>" + "<a href = 'viewuserinfo.php?userid=" + booking.userID + "&cafeid=" + cafeid + "'>User Info</a></td>";
                 rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
             }
             // add all the rows to the table

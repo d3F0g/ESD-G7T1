@@ -7,7 +7,7 @@ if(isset($_SESSION['access_token'])){
 }
 
 
-$redirectTo = "http://localhost/ESD-G7T1/app/facebook_login/callback.php";
+$redirectTo = "http://localhost/GitHub/ESD-G7T1/app/facebook_login/callback.php";
 $data = ['email'];
 $fullURL = $handler->getLoginUrl($redirectTo, $data);
 ?>
@@ -40,6 +40,7 @@ $fullURL = $handler->getLoginUrl($redirectTo, $data);
           
           <input type="submit" value="Login" class="btn btn-primary action-button">
           <input type="button" onclick="window.location = '<?php echo $fullURL ?>'" value="Login with Facebook" class="btn btn-primary action-button">
+          <input type="button" onclick="window.location = '../cafe_admin/owners_login.php'" value="Login as Admin" class="btn btn-primary action-button">
           <span style="color:red"><strong>
             <?php if (isset($_GET["error"])){
                   echo $_GET['error'];

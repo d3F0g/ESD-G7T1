@@ -122,7 +122,7 @@
                 $(async() => {           
                     // Change serviceURL to your own
                     var cafeid = <?php echo $_GET["cafeid"] ?> ;
-                    var serviceURL = "http://127.0.0.1:5001/reviews/cafe" + "/" + cafeid;
+                    var serviceURL = "http://127.0.0.1:5002/reviews/cafe" + "/" + cafeid;
                     try {
                         const response =
                          await fetch(

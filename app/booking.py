@@ -5,7 +5,7 @@ from sqlalchemy import desc, update
 import json
 import pika
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esd'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/esd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 import uuid
 
@@ -48,7 +48,7 @@ class Booking(db.Model):
 
     def json(self):
         return {"ID": self.ID, "userID": self.userID, "cafeID": self.cafeID, "seat_no": self.seat_no,
-        "block": self.block, "date": self.date, "status": self.status}
+        "block": self.block, "date": self.date.strftime('%d/%m/%Y'), "status": self.status}
 
 # HTTP GET_ALL function to retrieve all bookings
 @app.route("/booking")
@@ -136,7 +136,7 @@ def send_booking(booking_id):
     )
     print("Booking sent to Cafe Notification for booking creation into database")
     connection.close()
-    return "Booking creation confirmed"
+    return data
     
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

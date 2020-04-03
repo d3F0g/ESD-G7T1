@@ -1,15 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from sqlalchemy import desc
 import simplejson as json # remember to include simplejson as part of requirements.txt
 import pika
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esd'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/esd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['CORS_HEADERS'] = 'Content-Type'
  
 db = SQLAlchemy(app)
-CORS(app)
+CORS(app, support_credentials=True)
 
 class Review(db.Model):
     __tablename__ = 'reviews'
@@ -95,6 +96,13 @@ def get_reviews(userID):
     return jsonify({"reviews": [review.json() for review in Review.query.filter_by(userID=userID)]}
     )
 
+# retrieve all the reviews belonging to a user
+@app.route("/reviews/booking/<int:bookingID>")
+@cross_origin(support_credentials=True)
+def get_reviews_booking(bookingID):
+    return jsonify({"reviews": [review.json() for review in Review.query.filter_by(bookingID=bookingID)]}
+    )
+
 # HTTP GET function to retrieve the latest review ID from the database
 @app.route("/reviews/get_id")
 def find_latestID():
@@ -120,4 +128,4 @@ def create_review(ID):
     return jsonify(review.json()), 201
 
 if __name__ == '__main__':
-    app.run(port=5001, debug=True)
+    app.run(port=5002, debug=True)

@@ -1,5 +1,29 @@
 <?php
 session_start();
+//add to window page
+if (isset($_GET['r'])) {
+    $results = $_GET['r'];
+    $revs = unserialize($results);
+}
+else {
+    // get review booking IDs
+    $dsn = "mysql:host=localhost;dbname=esd";
+    $pdo = new PDO($dsn, "root", "root");
+    $sql = "select bookingID from reviews";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $review_bookingIDs = [];
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $review_bookingIDs[] = $row['bookingID'];
+    }
+    $stmt = null;
+    $pdo = null;
+    $review_data = serialize($review_bookingIDs);
+    header("Location: booking_page.php?r=$review_data");
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -128,16 +152,34 @@ session_start();
                 } else {
                     // for loop to setup all table rows with obtained book data
                     var rows = "";
+                    var reviews = <?php echo json_encode($revs); ?>;
+                    var result = reviews.map(function (x) { 
+                    return parseInt(x, 10); 
+                    });
                     for (const booking of bookings) {
-
-                        eachRow =
+                        //bookings are now loaded onto the url of the page
+                        if (result.includes(booking.ID)) {
+                            eachRow =
+                            "<td>" + booking.ID + "</td>" +
+                            "<td>" + booking.cafeID + "</td>" +
+                            "<td>" + booking.date + "</td>" +
+                            "<td>" + booking.status + "</td>" +
+                            "<td>" + "<a id='bookBtn' class='btn btn-primary' style='background-color:red; border-color:red' href='delete_review.php?bookingID=" + booking.ID + "'>Delete Review</a>" + "</td>" +
+                            "<td>" + "<a id='cancelBtn' class='btn btn-primary' href='confirmCancel.php?bookingID=" + booking.ID + "'>Cancel booking!</a>" + "</td>";
+                            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                        }
+                        else {
+                            eachRow =
                             "<td>" + booking.ID + "</td>" +
                             "<td>" + booking.cafeID + "</td>" +
                             "<td>" + booking.date + "</td>" +
                             "<td>" + booking.status + "</td>" +
                             "<td>" + "<a id='bookBtn' class='btn btn-primary' href='user_review.php?bookingID=" + booking.ID + "&cafeID=" + booking.cafeID + "&userID=" + booking.userID + "'>Give Review!</a>" + "</td>" +
                             "<td>" + "<a id='cancelBtn' class='btn btn-primary' href='confirmCancel.php?bookingID=" + booking.ID + "'>Cancel booking!</a>" + "</td>";
-                        rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                            rows += "<tbody><tr>" + eachRow + "</tr></tbody>";
+                        }
+
+                        
 
                     }
                     // add all the rows to the table
@@ -157,5 +199,6 @@ session_start();
 
         
     </script>
+    <div><?=$msg?></div>
 </body>
 </html>

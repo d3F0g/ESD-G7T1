@@ -42,10 +42,11 @@ $seat_no = unserialize($seats)[0];
 //retrieve the block from booking----------------with CafeID and SeatID---------------------
 $dsn = "mysql:host=localhost;dbname=esd";
 $pdo = new PDO($dsn, "root", "root");
-$sql = "select block from booking where cafeID=:cafeID and seat_no=:seat_no";
+$sql = "select block from booking where cafeID=:cafeID and seat_no=:seat_no and date=:date";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':cafeID', $cafeID, PDO::PARAM_STR);
 $stmt->bindParam(':seat_no', $seat_no, PDO::PARAM_STR);
+$stmt->bindParam(':date', $date, PDO::PARAM_STR);
 $stmt->execute();
 $timings = [];
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

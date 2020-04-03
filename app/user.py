@@ -5,7 +5,7 @@ from sqlalchemy import desc
 import json
 import pika
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/esd'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:root@localhost:3306/esd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
  
 db = SQLAlchemy(app)
@@ -75,4 +75,4 @@ def create_booking(booking_id):
     return jsonify(user.json()), 201
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5003, debug=True)

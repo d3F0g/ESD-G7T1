@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="../../css/quote.css">
   <div class="container">
     <div class="typewriter">
-     <h1>Let's see bookings!</h1>
+     <h1>View my bookings</h1>
     </div>
 </div>
   </body>

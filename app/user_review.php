@@ -66,7 +66,7 @@
         //Prevents screen from refreshing when submitting
         event.preventDefault();
         var foundReviewID;
-        var getReviewIDURL = "http://127.0.0.1:5001/reviews/get_id";
+        var getReviewIDURL = "http://127.0.0.1:5002/reviews/get_id";
         try {
             const response =
                 await fetch(
@@ -82,8 +82,8 @@
             // service offline, etc
             showError('Cannot get Review ID'+error);
         } 
-        var serviceURL = "http://127.0.0.1:5001/reviews/add/";
-        var homeURL = "http://127.0.0.1/ESD-G7T1/app/simple_UI.php";
+        var serviceURL = "http://127.0.0.1:5002/reviews/add/";
+        var homeURL = "simple_UI.php";
         serviceURL += foundReviewID;
 
         //Get form data 

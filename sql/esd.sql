@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `cafeID` int(10) NOT NULL,
   `bookingID` int(10) NOT NULL,
   `content` text NOT NULL,
-  `stars` float(3,2) NOT NULL,
+  `stars` int(3) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `userID` (`userID`),
   KEY `cafeID` (`cafeID`),
