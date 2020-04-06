@@ -8,7 +8,7 @@ if (isset($_GET['r'])) {
 else {
     // get review booking IDs
     $dsn = "mysql:host=localhost;dbname=esd";
-    $pdo = new PDO($dsn, "root", "root");
+    $pdo = new PDO($dsn, "root", "");
     $sql = "select bookingID from reviews";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
@@ -107,7 +107,7 @@ else {
             <thead class='thead-dark'>
                 <tr>
                     <th>BookingID</th>
-                    <th>CafeID</th>
+                    <th>Cafe Name</th>
                     <th>Date</th>
                     <th>Status</th>
                     <th></th>
@@ -226,6 +226,6 @@ else {
 
         
     </script>
-    <div><?=$msg?></div>
+
 </body>
 </html>
