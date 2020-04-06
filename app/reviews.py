@@ -127,5 +127,19 @@ def create_review(ID):
     
     return jsonify(review.json()), 201
 
+@app.route("/reviews/delete/<int:bookingID>", methods=['GET','POST'])
+def delete_review(bookingID):
+    review = Review.query.filter_by(bookingID=bookingID).first()
+    # review = str(review)
+    try:
+        db.session.delete(review)
+        db.session.commit()
+        print("Test review deleted")
+    except:
+        print("An error occurred while deleting a review")
+        send_error_review(review)
+    
+    return 201
+
 if __name__ == '__main__':
     app.run(port=5002, debug=True)

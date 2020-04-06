@@ -1,16 +1,16 @@
 Insert into users 
 (ID, email, password, first_name, last_name, phone, social_media)
-values (1, "joqeewee@gmail.com","$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "Josiah", "Wong", "999",NULL),
+values (1, "joqeewee@gmail.com","$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "Josiah", "Wong", "98575987",NULL),
 (2,"lvin_tank_esd@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "Lvin", "Shao", "95595559", NULL),
-(3,"stay_away_qijin@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "Qijon", "Tay", "505", NULL);
+(3,"stay_away_qijin@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "Qijon", "Tay", "65353535", NULL);
 
 
 Insert into cafes
 (ID, name, email, password, phone, poc, avg_review, price, location)
 values (1, "Lola","kindadopey@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu","65353535",'Lola', 3, 1, "Bukit Josiah"),
-(2, "Kooks","hxchoo@gmail.com","$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "999099",'Kook', 5,5,"Bukit Lvin"),
-(3, "Josies","josie@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu","8888",'Josie', 3, 1, "Bukit Josie"),
-(4, "Joqeewee","joqeewee@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu","23421331",'Joqeewee', 3, 1, "Bukit Joqeewee");
+(2, "Kooks","hxchoo@gmail.com","$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu", "90013113",'Kook', 5,5,"Bukit Lvin"),
+(3, "Josies","josie@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu","99009678",'Josie', 3, 1, "Bukit Josie"),
+(4, "Joqeewee","joqeewee@gmail.com", "$2y$10$muXf58lihCL6cmObNmqBH.nr/szrmmrPw3MfQ2dpL/5JZCkM0EGbu","81880092",'Joqeewee', 3, 1, "Bukit Joqeewee");
 
 Insert into booking
 (ID, userID, cafeID, seat_no, block,date, status)
