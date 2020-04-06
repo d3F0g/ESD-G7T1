@@ -1,15 +1,30 @@
-#!/usr/bin/env python3
-# The above shebang (#!) operator tells Unix-like environments
-# to run this file as a python3 script
-
-import json
-import sys
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from os import environ
+from sqlalchemy import desc
 import os
-
-# Communication patterns:
-# Use a message-broker with 'direct' exchange to enable interaction
+import json
 import pika
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+ 
+db = SQLAlchemy(app)
+CORS(app)
 
+class Monitor(db.Model):
+    __tablename__ = 'monitoring'
+
+    ID = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text, nullable=False)
+
+    def __init__(self, ID, body):
+        self.ID = ID
+        self.body = body
+
+    def json(self):
+        return {"ID": self.ID, "body": self.body}
 
 def receiveBookingLog():
     hostname = "some-rabbit" # default host
@@ -40,7 +55,19 @@ def callback(channel, method, properties, body): # required signature for the ca
 
 def processLog(log):
     print("Recording a monitoring log:")
-    print(log)
+    retrieved = Monitor.query.order_by(desc(Monitor.ID)).first()
+    if retrieved:
+        retrieved_id = retrieved.ID + 1
+    else:
+        retrieved_id = 1
+
+    monitor = Monitor(retrieved_id, str(log))
+
+    db.session.add(monitor)
+    db.session.commit()
+
+    print("Monitoring log successfully added into database")
+    return "Success"
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
     print("This is " + os.path.basename(__file__) + ": monitoring for events...")
