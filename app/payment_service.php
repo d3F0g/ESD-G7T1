@@ -145,7 +145,7 @@ if($block == 15) {
 
             onApprove: async function bookingPOST(){
                     var foundBookingID;
-                    var getBookingIDURL = "http://127.0.0.1:5000/booking/get_id";
+                    var getBookingIDURL = "http://localhost:8000/api/v1/booking/get_id";
                     try {
                         const response =
                             await fetch(
@@ -161,7 +161,7 @@ if($block == 15) {
                         // service offline, etc
                         showError('Cannot get Booking ID'+error);
                     } 
-                    var serviceURL = "http://127.0.0.1:5000/booking/";
+                    var serviceURL = "http://localhost:8000/api/v1/booking/";
                     serviceURL += foundBookingID;
                     var homeURL = "simple_UI.php?msg=Booking%20Confirmed!";
 
