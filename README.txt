@@ -206,4 +206,4 @@ After configurations, the services page in Konga should look like the interface 
 
 And the routes page in Konga should look like the interface in this image: https://imgur.com/a/WXLeqEp
 
-9. The last step will be to access http://localhost/ESD-G7T1/app/simpleUI.php through your web browser and use our application!
+9. The last step will be to access http://localhost/ESD-G7T1/app/simple_UI.php through your web browser and use our application!
