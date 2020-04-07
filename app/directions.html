@@ -46,6 +46,19 @@
     <script>
         start_point = {};
         end_point = {};
+        function initMap() {
+          var directionsRenderer = new google.maps.DirectionsRenderer;
+          var directionsService = new google.maps.DirectionsService;
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: {lat: 1.296568, lng: 103.852119}
+          });
+          // directionsRenderer.setMap(map);
+          calculateAndDisplayRoute(directionsService, directionsRenderer);
+          document.getElementById('mode').addEventListener('change', function() {
+            calculateAndDisplayRoute(directionsService, directionsRenderer);
+          });
+        }
         function getUrlVars() {
             var vars = {};
             var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -85,25 +98,14 @@
             start_point.lng = position.coords.longitude;
 
         }
-        function failure(){}
+        function failure(){
+            start_point.lat = 1.296568;
+            start_point.lng = 103.852119;
+        }
 
         console.log(start_point);
 
 
-      function initMap() {
-        var directionsRenderer = new google.maps.DirectionsRenderer;
-        var directionsService = new google.maps.DirectionsService;
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: {lat: 1.296568, lng: 103.852119}
-        });
-        directionsRenderer.setMap(map);
-
-        calculateAndDisplayRoute(directionsService, directionsRenderer);
-        document.getElementById('mode').addEventListener('change', function() {
-          calculateAndDisplayRoute(directionsService, directionsRenderer);
-        });
-      }
       function calculateAndDisplayRoute(directionsService, directionsRenderer) {
         var selectedMode = document.getElementById('mode').value;
         directionsService.route({
@@ -116,6 +118,7 @@
         }, function(response, status) {
           if (status == 'OK') {
             directionsRenderer.setDirections(response);
+            
           } else {
             window.alert('Directions request failed due to ' + status);
           }
@@ -125,5 +128,6 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4ugLld1u0TSJ0TADMXqEA7M7CLzWciHY&callback=initMap">
     </script>
+
   </body>
 </html>

@@ -2,20 +2,20 @@
 $cafe = $_GET['cafename'];
 echo "<h3><b>Cafe Name</b>: ".$cafe."</h3>";
 function build_calendar($month, $year, $cafe) {
-    $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
-    $stmt = $mysqli->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date) = ?");
-    $stmt->bind_param('ss', $month, $year);
-    $bookings = array();
-    if($stmt->execute()){
-        $result = $stmt->get_result();
-        if($result->num_rows>0){
-            while($row = $result->fetch_assoc()){
-                $bookings[] = $row['date'];
-            }
+    // $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
+    // $stmt = $mysqli->prepare("select * from bookings where MONTH(date) = ? AND YEAR(date) = ?");
+    // $stmt->bind_param('ss', $month, $year);
+    // $bookings = array();
+    // if($stmt->execute()){
+    //     $result = $stmt->get_result();
+    //     if($result->num_rows>0){
+    //         while($row = $result->fetch_assoc()){
+    //             $bookings[] = $row['date'];
+    //         }
             
-            $stmt->close();
-        }
-    }
+    //         $stmt->close();
+    //     }
+    // }
     
     
      // Create array containing abbreviations of days of week.

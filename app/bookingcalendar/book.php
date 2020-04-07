@@ -9,17 +9,17 @@ if(isset($_GET['seats'])){
   $seats = $_GET['seats'];
 }
 
-if(isset($_POST['submit'])){
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
-    $stmt = $mysqli->prepare("INSERT INTO bookings (name, email, date) VALUES (?,?,?)");
-    $stmt->bind_param('sss', $name, $email, $date);
-    $stmt->execute();
-    $msg = "<div class='alert alert-success'>Booking Successfull</div>";
-    $stmt->close();
-    $mysqli->close();
-}
+// if(isset($_POST['submit'])){
+//     $name = $_POST['name'];
+//     $email = $_POST['email'];
+//     $mysqli = new mysqli('localhost', 'root', 'root', 'bookingcalendar');
+//     $stmt = $mysqli->prepare("INSERT INTO bookings (name, email, date) VALUES (?,?,?)");
+//     $stmt->bind_param('sss', $name, $email, $date);
+//     $stmt->execute();
+//     $msg = "<div class='alert alert-success'>Booking Successfull</div>";
+//     $stmt->close();
+//     $mysqli->close();
+// }
 
 // Retrieves the cafeID-------------------------DO NOT TOUCH-------------------------------------
 $dsn = "mysql:host=localhost;dbname=esd";
