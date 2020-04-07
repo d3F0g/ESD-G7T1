@@ -14,7 +14,7 @@ https://docs.google.com/document/d/1SVAKVz6AuCyE610uJfJVJ6DlOY6adp6lXfhVE5We9do/
 5. Import esd.sql into phpmyadmin
 
 6. Configure Kong Gateway
-After configuring, it should look like this image <insert url> 
+After configuring, it should look like this image https://imgur.com/a/WXLeqEp  
 
 7. Run an instance of the image 
 docker run --rm -d --name=_______ --network=kong-net -e dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/esd terenceyap96/booking:1.0.0
