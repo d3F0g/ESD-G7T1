@@ -82,7 +82,7 @@
             // service offline, etc
             showError('Cannot get Review ID'+error);
         } 
-        var serviceURL = "http://127.0.0.1:5002/reviews/add/";
+        var serviceURL = "http://localhost:8000/api/v1/reviews/add/";
         var homeURL = "simple_UI.php?msg=Review%20Added!";
         serviceURL += foundReviewID;
 

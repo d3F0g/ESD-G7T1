@@ -105,7 +105,7 @@ $userid = json_encode($userid)
 <script>
 $(async() => {           
         // Change serviceURL to your own
-        var serviceURL = "http://127.0.0.1:5003/user/get/"+<?php echo $userid; ?>;
+        var serviceURL = "http://localhost:8000/api/v1/user/get/"+<?php echo $userid; ?>;
         
         try {
             const response =

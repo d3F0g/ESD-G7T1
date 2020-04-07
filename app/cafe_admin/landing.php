@@ -233,7 +233,7 @@ function showError(message) {
 $(async() => {           
     // Change serviceURL to your own
     var cafeid = <?php echo $_GET["cafeid"] ?> ;
-    var serviceURL = "http://127.0.0.1:5000/booking/cafe" + "/" + cafeid;
+    var serviceURL = "http://localhost:8000/api/v1/booking/cafe" + "/" + cafeid;
     try {
         const response =
           await fetch(

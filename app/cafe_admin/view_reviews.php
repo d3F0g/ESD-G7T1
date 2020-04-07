@@ -157,7 +157,7 @@
                 // - using await requires the function that calls it to be async
                 $(async() => {           
                     // Change serviceURL to your own
-                    var serviceURL = "http://127.0.0.1:5002/reviews/cafe/"+<?php echo $_SESSION['cafeID'] ?>;
+                    var serviceURL = "http://localhost:8000/api/v1/reviews/cafe/"+<?php echo $_SESSION['cafeID'] ?>;
              
                     try {
                         const response =

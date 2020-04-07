@@ -28,7 +28,7 @@ if (isset($_GET['bookingID'])) {
 <script>
     
         var deletionID = <?=$booking?>;
-        var serviceURL = "http://127.0.0.1:5002/reviews/delete/";
+        var serviceURL = "http://localhost:8000/api/v1/reviews/delete/";
         var homeURL = "simple_UI.php?msg=Review%20Deleted!";
         serviceURL += deletionID;
 

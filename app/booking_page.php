@@ -132,7 +132,7 @@ else {
         // - using await requires the function that calls it to be async
         $(async() => {           
             // Change serviceURL to your own
-            var serviceURL = "http://127.0.0.1:5000/booking/user/"+ <?php echo $_SESSION['userData']['userID']?>;
+            var serviceURL = "http://localhost:8000/api/v1/booking/user/"+ <?php echo $_SESSION['userData']['userID']?>;
      
             try {
                 const response =
