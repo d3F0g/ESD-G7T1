@@ -13,10 +13,40 @@ https://docs.google.com/document/d/1SVAKVz6AuCyE610uJfJVJ6DlOY6adp6lXfhVE5We9do/
 
 5. Import esd.sql into phpmyadmin
 
-6. Configure Kong Gateway
+6. For each microservice, run an instance of the microservice's image through docker by entering the following command:
+docker run --rm -d --name=_______ --network=kong-net -e dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/esd terenceyap96/_______:1.0.0
+
+Booking Mircroservice
+Name: booking1
+Image: terenceyap96/booking:1.0.0
+
+Cafe Notification Microservice
+Name: cafe_notification
+Image: terenceyap96/cafe_notification:1.0.0
+
+Booking Reply Queue
+Name: booking_reply
+Image: terenceyap96/booking_reply:1.0.0
+
+Monitoring Microservice
+Name: monitoring
+Image: terenceyap96/monitoring:1.0.0
+
+Error Handler Microservice
+Name: errorhandler
+Image: terenceyap96/errorhandler:1.0.0
+
+Reviews Microservice:
+Name: reviews1
+Image: terenceyap96/reviews:1.0.0
+
+Cafe Microservice:
+Name: cafe1
+Image: terenceyap96/cafe:1.0.0
+
+User Microservice:
+Name: user1
+Image: terenceyap96/user:1.0.0
+
+6. Configure Kong API Gateway
 After configuring, it should look like this image https://imgur.com/a/WXLeqEp  
-
-7. Run an instance of the image 
-docker run --rm -d --name=_______ --network=kong-net -e dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/esd terenceyap96/booking:1.0.0
-
-8. API Gateway
