@@ -158,7 +158,7 @@ else {
                     });
                     for (const booking of bookings) {
                         var cafeid = booking.cafeID;
-                        var getCafeURL = "http://127.0.0.1:5001/cafes/get/";
+                        var getCafeURL = "http://localhost:8000/api/v1/cafes/get/";
                         getCafeURL += cafeid;
                         try{
                             const response =
