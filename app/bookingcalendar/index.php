@@ -102,8 +102,6 @@ function build_calendar($month, $year, $cafe) {
             $today = $date==date('Y-m-d')? "today" : "";
          if($date<date('Y-m-d')){
              $calendar.="<td><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>N/A</button>";
-         }elseif(in_array($date, $bookings)){
-             $calendar.="<td class='$today'><h4>$currentDay</h4> <button class='btn btn-danger btn-xs'>Already Booked</button>";
          }else{
              $calendar.="<td class='$today'><h4>$currentDay</h4> <a href='seatings.php?date=$date&cafe=$cafe' class='btn btn-success btn-xs'>Book</a>";
          }
