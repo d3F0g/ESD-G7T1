@@ -206,4 +206,12 @@ After configurations, the services page in Konga should look like the interface 
 
 And the routes page in Konga should look like the interface in this image: https://imgur.com/a/WXLeqEp
 
-9. The last step will be to access http://localhost/ESD-G7T1/app/simple_UI.php through your web browser and use our application!
+9. The last step will be to access http://localhost/ESD-G7T1/app/facebook_login/login.php through your web browser and use our application!
+
+9.1 You can log in to user account with, EMAIL: joqeewee@gmail.com, PW: root 
+9.2 You can log in to admin account with, EMAIL: kindadopey@gmail.com, PW: root
+9.3 If you would like to log in using Facebook, please get the credentials from our group as the Facebook login API is currently in development mode and will only allow the creator to test log in.  
+
+10. To confirm your booking, you will have to log in to Paypal and authorise the booking fee payment.
+10.1    email ID for PAYPAL: sb-ahfw2581173@business.example.com
+        password for PAYPAL: JU-z(3v=
