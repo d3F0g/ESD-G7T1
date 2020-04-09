@@ -66,7 +66,7 @@
         //Prevents screen from refreshing when submitting
         event.preventDefault();
         var foundReviewID;
-        var getReviewIDURL = "http://127.0.0.1:5002/reviews/get_id";
+        var getReviewIDURL = "http://localhost:8000/api/v1/reviews/get_id";
         try {
             const response =
                 await fetch(
