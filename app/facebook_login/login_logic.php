@@ -6,7 +6,7 @@ $pass = $_POST['loginPassword'];
 //Add registration details
 $servername = "localhost";
 $username = "root";
-$password = "root";
+$password = "";
 $dbname = "esd";
 
 try {
