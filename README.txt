@@ -80,7 +80,8 @@ Methods: GET
 
 Route Name: Booking_POST
 Paths: /api/v1/booking
-Methods: POST
+Methods: POST 
+        OPTIONS
 
 8.2
 Service Name: booking-update
@@ -153,6 +154,7 @@ URL: http://reviews1:5000/reviews/add
 Route Name: Reviews_POST
 Paths: /api/v1/reviews/add
 Methods: POST
+        OPTIONS
 
 8.11
 Service Name: reviews-delete
@@ -161,6 +163,7 @@ URL: http://reviews1:5000/reviews/delete
 Route Name: Reviews_DELETE
 Paths: /api/v1/reviews/delete
 Methods: POST
+        OPTIONS
 
 8.12
 Service Name: cafes
@@ -193,6 +196,7 @@ URL: http://user1:5000/user/create
 Route Name: User_POST
 Paths: /api/v1/user/create
 Methods: POST
+        OPTIONS
 
 8.16
 Service Name: user-getID
@@ -206,12 +210,21 @@ After configurations, the services page in Konga should look like the interface 
 
 And the routes page in Konga should look like the interface in this image: https://imgur.com/a/WXLeqEp
 
+8.17 Add CORS Plugin to your Konga GUI for every route that needs POST
+origin : *
+headers : Content-Type,x-requested-with,Access-Control-Allow-Origin,Access-Control-Allow-Headers,Access-Control-Allow-Methods
+methods : POST 
+          GET
+          OPTIONS
+credentials : yes
+
 9. The last step will be to access http://localhost/ESD-G7T1/app/facebook_login/login.php through your web browser and use our application!
 
 9.1 You can log in to user account with, EMAIL: joqeewee@gmail.com, PW: root 
 9.2 You can log in to admin account with, EMAIL: kindadopey@gmail.com, PW: root
 9.3 If you would like to log in using Facebook, please get the credentials from our group as the Facebook login API is currently in development mode and will only allow the creator to test log in.  
 
+9.4 Lolas and Kooks Cafe can be used for testing.  
 10. To confirm your booking, you will have to log in to Paypal and authorise the booking fee payment.
 10.1    email ID for PAYPAL: sb-ahfw2581173@business.example.com
         password for PAYPAL: JU-z(3v=
