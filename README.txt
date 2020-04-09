@@ -90,6 +90,7 @@ URL: http://booking1:5000/booking/update
 Route Name: Booking_UPDATE
 Paths: /api/v1/booking/update
 Methods: PUT
+	OPTIONS
 
 8.3
 Service Name: booking-user
