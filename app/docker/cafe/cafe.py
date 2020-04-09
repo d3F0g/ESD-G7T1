@@ -58,14 +58,6 @@ def find_by_price_location(price, location):
         return jsonify({"cafes": [cafe.json() for cafe in Cafe.query.filter_by( price=price, location=location)]})
     return jsonify({"message": "No results."}), 404
 
-# search by location
-# @app.route("/cafes/<string:location>")
-# def find_by_location(location):
-#     cafes = Cafe.query.filter_by( location=location)
-#     if cafes:
-#         return jsonify({"cafes": [cafe.json() for cafe in Cafe.query.filter_by( location=location)]})
-#     return jsonify({"message": "No results."}), 404
-
 # search by price
 @app.route("/cafes/<int:price>")
 def find_by_price(price):
@@ -73,14 +65,6 @@ def find_by_price(price):
     if cafes:
         return jsonify({"cafes": [cafe.json() for cafe in Cafe.query.filter_by( price=price)]})
     return jsonify({"message": "No results."}), 404
-
-# # search by cafe name
-# @app.route("/cafes/<string:name>")
-# def find_by_cafe_name(name):
-#     cafe = Cafe.query.filter_by(name=name).first()
-#     if cafe:
-#         return jsonify(cafe.json())
-#     return jsonify({"message": "No results."}), 404
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

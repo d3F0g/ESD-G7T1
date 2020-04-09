@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from sqlalchemy import desc, update
 from os import environ
 import json
@@ -9,9 +9,10 @@ import uuid
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 db = SQLAlchemy(app)
-CORS(app)
+CORS(app, support_credentials=True)
 
 class CorrID(db.Model):
     __tablename__ = 'corrid'
@@ -64,7 +65,8 @@ def find_booking(booking_id):
         return jsonify(booking.json())
 
 # HTTP PUT function to update a booking when booking is cancelled
-@app.route("/booking/update/<int:booking_id>", methods=["PUT"])
+@app.route("/booking/update/<int:booking_id>", methods=['PUT', 'OPTIONS'])
+@cross_origin(support_credentials=True)
 def update_booking(booking_id):
     booking = Booking.query.filter_by(ID=booking_id)
     if booking:
@@ -100,7 +102,8 @@ def find_latestID():
         return str(1)
 
 # HTTP POST function that listens for a new booking from Payment
-@app.route("/booking/<int:booking_id>", methods=['POST'])
+@app.route("/booking/<int:booking_id>", methods=['POST', 'OPTIONS'])
+@cross_origin(support_credentials=True)
 def send_booking(booking_id):
     print()
     print("Booking received from Payment")

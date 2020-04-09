@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from sqlalchemy import desc
 from os import environ
-import simplejson as json # remember to include simplejson as part of requirements.txt
+import simplejson as json
 import pika
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
@@ -99,7 +99,6 @@ def get_reviews(userID):
 
 # retrieve all the reviews belonging to a user
 @app.route("/reviews/booking/<int:bookingID>")
-@cross_origin(support_credentials=True)
 def get_reviews_booking(bookingID):
     return jsonify({"reviews": [review.json() for review in Review.query.filter_by(bookingID=bookingID)]}
     )
@@ -113,7 +112,8 @@ def find_latestID():
     else:
         return str(1)
     
-@app.route("/reviews/add/<int:ID>", methods=['POST'])
+@app.route("/reviews/add/<int:ID>", methods=['POST', 'OPTIONS'])
+@cross_origin(support_credentials=True)
 def create_review(ID):
     data = request.get_json()
     review = Review(ID, **data)
@@ -127,6 +127,21 @@ def create_review(ID):
         send_error_review(review)
     
     return jsonify(review.json()), 201
+
+@app.route("/reviews/delete/<int:bookingID>", methods=['GET', 'POST', 'OPTIONS'])
+@cross_origin(support_credentials=True)
+def delete_review(bookingID):
+    review = Review.query.filter_by(bookingID=bookingID).first()
+    # review = str(review)
+    try:
+        db.session.delete(review)
+        db.session.commit()
+        print("Test review deleted")
+    except:
+        print("An error occurred while deleting a review")
+        send_error_review(review)
+    
+    return "Review deleted"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

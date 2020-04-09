@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from sqlalchemy import desc
 from os import environ
 import json
@@ -8,9 +8,10 @@ import pika
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
- 
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 db = SQLAlchemy(app)
-CORS(app)
+CORS(app, support_credentials=True)
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -36,14 +37,6 @@ class User(db.Model):
         return {"ID": self.ID, "email": self.email, "password": self.password, "first_name": self.first_name,
         "last_name": self.last_name, "phone": self.phone, "social_media": self.social_media}
 
-# # HTTP GET function to retrieve the userID from the database
-# @app.route("/user/<int:user_id>")
-# def find_userid(user_id):
-#     users = User.query.filter_by(ID=user_id)
-#     if users:
-#         return jsonify({"users": [user.json() for user in User.query.filter_by( ID=user_id)]})
-#     return jsonify({"message": "User not found."}), 404
-
 # HTTP GET function to retrieve the userID from the database
 @app.route("/user/get/<int:user_id>")
 def find_userid(user_id):
@@ -62,7 +55,8 @@ def find_latestID():
         return str(1)
 
 # HTTP POST function to create a new user
-@app.route("/user/create/<int:user_id>", methods=['POST'])
+@app.route("/user/create/<int:user_id>", methods=['POST', 'OPTIONS'])
+@cross_origin(support_credentials=True)
 def create_user(user_id):
     data = request.get_json()
     user = User(user_id, **data)
