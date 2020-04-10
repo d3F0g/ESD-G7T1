@@ -239,3 +239,15 @@ credentials : yes
 11. To confirm your booking, you will have to log in to Paypal and authorise the booking fee payment.
 11.1    email ID for PAYPAL: sb-ahfw2581173@business.example.com
         password for PAYPAL: JU-z(3v=
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+TELEGRAM BOT
+To begin using the telegram bot, go into your command line and run this command:
+pip install pyTelegramBotAPI
+
+After it has been installed, run telegram.py inside the telegram_bot folder in the app folder. To do this, go into your command line and run this command:
+python telegram.py
+
+Then search for CafeBookie in telegram’s search bar and enter “/“ to view your options.
